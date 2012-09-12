@@ -1,0 +1,33 @@
+<%= form_for(@group) do |f| %>
+  <% if @group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+
+      <ul>
+      <% @group.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :meeting_day %><br />
+    <%= select :group, :meeting_day, day_of_week_names %>
+  </div>
+  <div class="field">
+    <%= f.label :meeting_time %><br />
+    <%= time_select :group, :meeting_time, { :minute_step => 15 } %>
+  </div>
+  <div class="field">
+    <%= f.label :user, 'Contact' %><br />
+    <%= collection_select :group, :user_id, User.where({ :active => true }).all, :person_id, :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

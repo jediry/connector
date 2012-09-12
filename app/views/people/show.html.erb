@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @person.name %>
+</p>
+
+<p>
+  <b>Phone:</b>
+  <%= @person.phone %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @person.email %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <% if @person.address.nil? %>
+    <i>none</i>
+  <% else %>
+    <%= @person.address.street %><br />
+    <% if not @person.address.detail.nil? %>
+      <%= @person.address.detail %><br />
+    <% end %>
+    <%= @person.address.city %>, <%= @person.address.state %> <%= @person.address.zip %>
+  <% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'Back', people_path %>

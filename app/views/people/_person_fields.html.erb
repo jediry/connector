@@ -1,0 +1,17 @@
+<div class="field">
+  <%= f.label :name %><br />
+  <%= f.text_field :name %>
+</div>
+<div class="field">
+  <%= f.label :phone %><br />
+  <%= f.text_field :phone %>
+</div>
+<div class="field">
+  <%= f.label :email %><br />
+  <%= f.text_field :email %>
+</div>
+
+<%= f.fields_for :address do |builder| %>
+  <%= render 'address_fields', :f => builder %>
+  <%= link_to_delete_field "[remove]", f %>
+<% end %>

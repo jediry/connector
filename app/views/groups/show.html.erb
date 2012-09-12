@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @group.name %>
+</p>
+
+<p>
+  <b>Meeting:</b>
+  <%= day_of_week_name @group.meeting_day %>
+  <%= @group.meeting_time.to_s(:time) %>
+</p>
+
+<p>
+  <b>Contact:</b>   
+  <%= @group.user.person.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_group_path(@group) %> |
+<%= link_to 'Back', groups_path %>
