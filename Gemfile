@@ -2,7 +2,9 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.3'
 
-gem 'sqlite3'
+group :development do
+  gem 'sqlite3'
+end
 
 # Foreign-key support for ActiveRecord
 gem 'foreigner'
