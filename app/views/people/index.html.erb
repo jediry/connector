@@ -12,10 +12,9 @@
 
 <% @people.each do |person| %>
   <tr>
-    <td><%= person.name %></td>
+    <td><%= link_to person.name, person %></td>
     <td><%= person.phone %></td>
-    <td><a href="<%= person.email %>"> <%= person.email %></a></td>
-    <td><%= link_to 'Show', person %></td>
+    <td><%= mail_to person.email, person.email %></td>
     <td><%= link_to 'Edit', edit_person_path(person) %></td>
     <td><%= link_to 'Destroy', person, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
@@ -24,4 +23,4 @@
 
 <br />
 
-<%= link_to 'New Person', new_person_path %>
+<%= link_to '[new]', new_person_path %>

@@ -1,0 +1,14 @@
+<h1>My tasks</h1>
+
+<p>Things I need to do today</p>
+<ul>
+<% @people.each do |person| %>
+  <li>
+    <%= link_to person.name, person %>
+    <ul>
+      <li><%= link_to 'Create City account', '#' %></li>
+      <li><%= link_to 'Send welcome email', '#' %></li>
+    </ul>
+  </li>
+<% end %>
+</ul>

@@ -7,6 +7,13 @@ Connector::Application.routes.draw do
 
   resources :people
 
+  resources :sessions, :only => [ :new, :create, :destroy ]
+  match '/login', :to => 'sessions#new'
+  match '/logout', :to => 'sessions#destroy'
+  #match '/logout', :to => 'sessions#destroy', :via => :delete
+  match '/connect_wizard', :to => 'people#new'
+  match '/my_tasks', :to => 'people#my_tasks'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,0 +1,19 @@
+<% if logged_in? %>
+  <header class="navbar">
+    <div class="container">
+      <nav>
+        <div><%= link_to_unless_current 'My tasks', my_tasks_path %></div>
+        <div><%= link_to_unless_current 'Connect someone...', connect_wizard_path %></div>
+        <% if logged_in_admin? %>
+          <div><%= link_to_unless_current 'Users', users_path %></div>
+          <div><%= link_to_unless_current 'Define tasks', task_types_path %></div>
+          <div><%= link_to_unless_current 'Email group leaders', '#' %></div>
+        <% end %>
+        <div><%= link_to_unless_current 'Contacts', people_path %></div>
+        <div><%= link_to_unless_current 'Groups', groups_path %></div>
+        <div><%= link_to_unless_current 'My profile', current_user %></div>
+        <div><%= link_to 'Log out', logout_path, :method => :delete %></div>
+      </nav>
+    </div>
+  </header>
+<% end %>

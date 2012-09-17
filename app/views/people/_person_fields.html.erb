@@ -13,5 +13,5 @@
 
 <%= f.fields_for :address do |builder| %>
   <%= render 'address_fields', :f => builder %>
-  <%= link_to_delete_field "[remove]", f %>
+  <%= link_to_delete_field '[remove]', builder %>
 <% end %>

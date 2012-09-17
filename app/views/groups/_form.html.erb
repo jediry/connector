@@ -12,6 +12,10 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :group_type %><br />
+    <%= f.collection_select :group_type_id, GroupType.all, :id, :description %>
+  </div>
+  <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>

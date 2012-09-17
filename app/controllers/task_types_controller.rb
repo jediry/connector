@@ -1,4 +1,6 @@
 class TaskTypesController < ApplicationController
+  before_filter :require_logged_in_admin
+
   # GET /task_types
   # GET /task_types.json
   def index

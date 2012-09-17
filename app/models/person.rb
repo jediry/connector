@@ -2,7 +2,7 @@ class Person < ActiveRecord::Base
   attr_accessible :name, :email, :phone, :address_attributes
   has_one :address, :dependent => :destroy
 
-  accepts_nested_attributes_for :address
+  accepts_nested_attributes_for :address, :allow_destroy => true
 
   validates :name, :presence => true
   validates :phone, :format => { :with => /^\([0-9]{3}\) [0-9]{3}-[0-9]{4}$/ }

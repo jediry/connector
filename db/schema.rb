@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120911093309) do
+ActiveRecord::Schema.define(:version => 20120913193235) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -26,13 +26,20 @@ ActiveRecord::Schema.define(:version => 20120911093309) do
 
   add_index "addresses", ["person_id"], :name => "index_addresses_on_person_id"
 
+  create_table "group_types", :force => true do |t|
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"
+    t.integer  "group_type_id"
     t.integer  "meeting_day"
     t.time     "meeting_time"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "people", :force => true do |t|
@@ -60,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20120911093309) do
     t.integer  "person_id"
     t.string   "username"
     t.string   "password_digest"
+    t.string   "remember_token"
     t.boolean  "active",          :default => true
     t.boolean  "admin"
     t.datetime "created_at",                        :null => false
@@ -67,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20120911093309) do
   end
 
   add_index "users", ["person_id"], :name => "index_users_on_person_id"
+  add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end
