@@ -3,14 +3,14 @@ class Group < ActiveRecord::Base
   belongs_to :user
   has_one :group_type
 
-  before_save :fix_up_group_type
+  before_validation :fix_up_group_type
 
   validates :name, :user, :group_type, :meeting_day, :meeting_time, :presence => true
 
 private
   def fix_up_group_type
-#    if self.group_type.nil? and !self.group_type_id.nil?
+    if self.group_type.nil? and !self.group_type_id.nil?
       self.group_type = GroupType.find(self.group_type_id)
-#    end
+    end
   end
 end
