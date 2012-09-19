@@ -1,5 +1,14 @@
 module ApplicationHelper
   DAY_OF_WEEK_NAMES = %w( Sunday Monday Tuesday Wednesday Thursday Friday Saturday )
+  DAY_OF_WEEK_TO_ORDINAL = {
+    'Sunday'    => 0,
+    'Monday'    => 1,
+    'Tuesday'   => 2,
+    'Wednesday' => 3,
+    'Thursday'  => 4,
+    'Friday'    => 5,
+    'Saturday'  => 6
+  }
   STATE_ABBREVIATIONS = %w( AL AK AZ AS CA CO CN DE FL GA HI ID IL IN IA KS KY LA ME MA MS MI MN MS MO MT NB NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY )
 
   def link_to_add_field(name, f, association)
@@ -19,7 +28,7 @@ module ApplicationHelper
   end
 
   def day_of_week_names
-    DAY_OF_WEEK_NAMES
+    DAY_OF_WEEK_TO_ORDINAL
   end
 
   def day_of_week_name(index)
