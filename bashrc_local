@@ -15,7 +15,7 @@ echo
 echo "Using `python --version 2>&1`"
 
 # Select the Ruby installation to use
-RUBY=/c/Ruby192
+RUBY=/c/Ruby193
 export PATH=$RUBY/bin:$PATH
 echo
 echo "Using `ruby --version`"
