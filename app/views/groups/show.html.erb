@@ -12,10 +12,19 @@
 </p>
 
 <p>
-  <b>Contact:</b>   
+  <b>Contact:</b>
   <%= @group.user.person.name %>
 </p>
 
+<p>
+  <b>Description:</b>
+  <pre><%= @group.description %></pre>
+</p>
+
+<p>
+  <b>Restrictions:</b>
+  <pre><%= @group.restrictions %></pre>
+</p>
 
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>
