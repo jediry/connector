@@ -1,4 +1,6 @@
 Connector::Application.routes.draw do
+  root :to => 'people#my_tasks'
+
   resources :groups
 
   resources :task_types
