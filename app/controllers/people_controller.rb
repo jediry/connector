@@ -1,4 +1,6 @@
 class PeopleController < ApplicationController
+  before_filter :require_logged_in_user
+
   def my_tasks
     @people = Person.all
 
