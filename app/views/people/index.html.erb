@@ -13,7 +13,7 @@
 <% @people.each do |person| %>
   <tr>
     <td><%= link_to person.name, person %></td>
-    <td><%= person.phone %></td>
+    <td><%= format_telephone person.phone %></td>
     <td><%= mail_to person.email, person.email %></td>
     <td><%= link_to 'Edit', edit_person_path(person) %></td>
     <td><%= link_to 'Destroy', person, confirm: 'Are you sure?', method: :delete %></td>

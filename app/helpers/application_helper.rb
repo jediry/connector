@@ -23,6 +23,42 @@ module ApplicationHelper
     f.hidden_field(:_destroy) + link_to_function(name, "delete_field(this)")
   end
 
+  def link_to_select_form(name, association)
+    html = '<div>' +
+             '<select name="hi">' +
+               '<option value="1">Hello</option>' +
+               '<option value="2">Ciao</option>' +
+             '</select>' +
+           '</div>'
+    link_to_function(name, "add_field(this, \"#{association}\", \"#{escape_javascript(html)}\")")
+  end
+
+  def validated_telephone_field(name, f)
+    f.telephone_field name, :value => format_telephone(f.object.read_attribute(name)), :onchange => "format_telephone_field(this)"
+  end
+
+  def validated_email_field(name, f)
+    f.email_field name
+  end
+
+  def format_telephone(number)
+    if (number.blank?)
+      return ''
+    end
+
+    area = number[0, 3].rjust(3)
+    prefix = number[3, 3].rjust(3)
+    suffix = number[6, 4].rjust(4)
+    ext = number[10]
+
+    formatted = "(#{area}) #{prefix}-#{suffix}"
+    if !ext.blank?
+      formatted += " x#{ext}"
+    end
+
+    return formatted
+  end
+
   def state_abbreviations
     STATE_ABBREVIATIONS
   end

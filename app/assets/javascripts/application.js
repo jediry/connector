@@ -26,3 +26,29 @@ function delete_field(link) {
     $(link).prev("input[type=\"hidden\"]").val("1");
     $(link).parent(".field").hide();
 }
+
+
+function strip_nonnumeric(number) {
+    var regexp = new RegExp("[^0-9]", "g");
+    return number.replace(regexp, "");
+}
+
+
+function format_telephone_field(input) {
+    var number = strip_nonnumeric(input.value);
+    var area = number.substr(0, 3);
+    var prefix = number.substr(3, 3);
+    var suffix = number.substr(6, 4);
+    var ext = number.substr(10);
+    while (area.length < 3)
+        area = ' ' + area;
+    while (prefix.length < 3)
+        prefix = ' ' + prefix;
+    while (suffix.length < 4)
+        suffix = ' ' + suffix;
+
+    var formatted = "(" + area + ") " + prefix + "-" + suffix;
+    if (ext.length > 0)
+        formatted += " x" + ext;
+    input.value = formatted;
+}

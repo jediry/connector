@@ -4,11 +4,11 @@
 </div>
 <div class="field">
   <%= f.label :phone %><br />
-  <%= f.text_field :phone %>
+  <%= validated_telephone_field :phone, f %>
 </div>
 <div class="field">
   <%= f.label :email %><br />
-  <%= f.text_field :email %>
+  <%= validated_email_field :email, f %>
 </div>
 
 <%= f.fields_for :address do |builder| %>
