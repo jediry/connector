@@ -23,16 +23,6 @@ module ApplicationHelper
     f.hidden_field(:_destroy) + link_to_function(name, "delete_field(this)")
   end
 
-  def link_to_select_form(name, association)
-    html = '<div>' +
-             '<select name="hi">' +
-               '<option value="1">Hello</option>' +
-               '<option value="2">Ciao</option>' +
-             '</select>' +
-           '</div>'
-    link_to_function(name, "add_field(this, \"#{association}\", \"#{escape_javascript(html)}\")")
-  end
-
   def validated_telephone_field(name, f)
     f.telephone_field name, :value => format_telephone(f.object.read_attribute(name)), :onchange => "format_telephone_field(this)"
   end

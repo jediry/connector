@@ -2,12 +2,16 @@ Connector::Application.routes.draw do
   root :to => 'people#my_tasks'
 
   resources :groups
+  match '/groups/:group_id/members', :to => 'groups#add_member', :via => :post
+  match '/groups/:group_id/members/:person_id', :to => 'groups#remove_member', :via => :delete
+
+  resources :people
+  match '/people/:person_id/groups', :to => 'people#add_to_group', :via => :post
+  match '/people/:person_id/groups/:group_id', :to => 'people#remove_from_group', :via => :delete
 
   resources :task_types
 
   resources :users
-
-  resources :people
 
   resources :sessions, :only => [ :new, :create, :destroy ]
   match '/login', :to => 'sessions#new'

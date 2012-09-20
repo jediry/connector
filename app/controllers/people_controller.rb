@@ -92,4 +92,38 @@ class PeopleController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # POST /people/1/groups
+  # POST /people/1/groups.json
+  def add_to_group
+    @person = Person.find(params[:person_id])
+    @person.groups << Group.find(params[:group_id])
+
+    respond_to do |format|
+      if @person.save
+        format.html { redirect_to @person, notice: 'Person successfully addded to group.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @person, notice: 'Error adding person to group.' }
+        format.json { render json: @person.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /people/1/group/3
+  # DELETE /people/1/group/3.json
+  def remove_from_group
+    @person = Person.find(params[:person_id])
+    @person.groups.delete Group.find(params[:group_id])
+
+    respond_to do |format|
+      if @person.save
+        format.html { redirect_to @person, notice: 'Person successfully removed from group.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @person, notice: 'Error removing person from group.' }
+        format.json { render json: @person.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 end
