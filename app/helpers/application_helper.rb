@@ -39,7 +39,7 @@ module ApplicationHelper
     area = number[0, 3].rjust(3)
     prefix = number[3, 3].rjust(3)
     suffix = number[6, 4].rjust(4)
-    ext = number[10]
+    ext = number[10..-1]
 
     formatted = "(#{area}) #{prefix}-#{suffix}"
     if !ext.blank?
