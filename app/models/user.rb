@@ -4,7 +4,13 @@ class User < ActiveRecord::Base
   attr_accessible :username, :password, :password_confirmation, :active, :admin, :person_attributes
   belongs_to :person, :dependent => :destroy
   has_many :groups
+  has_many :tasks
   has_secure_password
+
+  # Returns the collection of tasks assigned to this user that are currently in-progress
+  def in_progress_tasks
+    Task.joins('inner join task_statuses on tasks.task_status_id = task_statuses.id').where('tasks.user_id' => id, 'task_statuses.finish' => false)
+  end
 
   # Save usernames as all lower-case, to ensure that the uniqueness constraint
   # is enforced regardless of whether the database cares about case
@@ -20,6 +26,10 @@ class User < ActiveRecord::Base
 
   def name
     self.person.name
+  end
+
+  def id
+    self.person_id
   end
 
 private

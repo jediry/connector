@@ -21,6 +21,32 @@
   <%= @user.admin %>
 </p>
 
+<% show_finished = params[:show_finished] == 'true' %>
+<% tasks = show_finished ? @user.tasks : @user.in_progress_tasks %>
+<div class="grouping_box">
+  <b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>
+  <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), user_path(@user, :show_finished => !show_finished ) %>
+  <br />
+  <% if tasks.empty? %>
+    <i>no tasks</i><br />
+  <% else %>
+    <table>
+      <tr>
+        <th>Task</th>
+        <th>Person</th>
+        <th>Status</th>
+      </tr>
+      <% tasks.each do |t| %>
+        <tr>
+          <td> <%= link_to t.task_type.description, t %> </td>
+          <td> <%= link_to t.person.name, t.person %> </td>
+          <td> <%= t.task_status.description %> </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

@@ -19,8 +19,8 @@ module ApplicationHelper
     link_to_function(name, "add_field(this, \"#{association}\", \"#{escape_javascript(fields)}\")")
   end
 
-  def link_to_delete_field(name, f)
-    f.hidden_field(:_destroy) + link_to_function(name, "delete_field(this)")
+  def link_to_delete_field(name, f, hide_selector)
+    f.hidden_field(:_destroy) + link_to_function(name, "delete_field(this, \"#{escape_javascript(hide_selector)}\")")
   end
 
   def validated_telephone_field(name, f)
@@ -29,6 +29,18 @@ module ApplicationHelper
 
   def validated_email_field(name, f)
     f.email_field name
+  end
+
+  def task_type_select(name, f, options = {})
+    f.collection_select name, TaskType.all, :id, :description, options
+  end
+
+  def active_user_select(name, f, options = {})
+    f.collection_select name, User.where(:active => true), :id, :name, options
+  end
+
+  def active_group_select(name, f, options = {})
+    f.collection_select name, Group.all, :id, :name, options
   end
 
   def format_telephone(number)

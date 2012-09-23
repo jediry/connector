@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120919041905) do
+ActiveRecord::Schema.define(:version => 20120923185147) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -44,6 +44,13 @@ ActiveRecord::Schema.define(:version => 20120919041905) do
     t.text     "restrictions"
   end
 
+  create_table "groups_people", :id => false, :force => true do |t|
+    t.integer "group_id",  :null => false
+    t.integer "person_id", :null => false
+  end
+
+  add_index "groups_people", ["group_id", "person_id"], :name => "index_groups_people_on_group_id_and_person_id", :unique => true
+
   create_table "people", :force => true do |t|
     t.string   "name"
     t.string   "phone"
@@ -55,8 +62,11 @@ ActiveRecord::Schema.define(:version => 20120919041905) do
   create_table "task_statuses", :force => true do |t|
     t.string   "description"
     t.integer  "task_type_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.boolean  "active",       :default => true,  :null => false
+    t.boolean  "start",        :default => false, :null => false
+    t.boolean  "finish",       :default => false, :null => false
   end
 
   create_table "task_types", :force => true do |t|
@@ -64,6 +74,20 @@ ActiveRecord::Schema.define(:version => 20120919041905) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  create_table "tasks", :force => true do |t|
+    t.integer  "task_type_id"
+    t.integer  "person_id"
+    t.integer  "user_id"
+    t.integer  "task_status_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "tasks", ["person_id"], :name => "index_tasks_on_person_id"
+  add_index "tasks", ["task_status_id"], :name => "index_tasks_on_task_status_id"
+  add_index "tasks", ["task_type_id"], :name => "index_tasks_on_task_type_id"
+  add_index "tasks", ["user_id"], :name => "index_tasks_on_user_id"
 
   create_table "users", :force => true do |t|
     t.integer  "person_id"

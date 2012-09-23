@@ -1,0 +1,38 @@
+<h1>Listing tasks</h1>
+
+<% show_finished = params[:show_finished] == 'true' %>
+<b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>
+<%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), tasks_path(:show_finished => !show_finished ) %>
+<br />
+
+<% TaskType.all.each do |tt| %>
+  <% tasks = show_finished ? tt.tasks : tt.in_progress_tasks %>
+  <% if !tasks.empty? %>
+    <div class="grouping_box">
+      <h2><%= tt.description %></h2>
+      <table>
+        <tr>
+          <th>Person</th>
+          <th>Assigned to</th>
+          <th>Status</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <% tasks.each do |t| %>
+          <tr>
+            <td><%= link_to t.person.name, t.person %></td>
+            <td><%= link_to t.user.name, t.user %></td>
+            <td><%= t.task_status.description %></td>
+            <td><%= link_to 'Show', t %></td>
+            <td><%= link_to 'Edit', edit_task_path(t) %></td>
+            <td><%= link_to 'Destroy', t, confirm: 'Are you sure?', method: :delete %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  <% end %>
+<% end %>
+
+<br />

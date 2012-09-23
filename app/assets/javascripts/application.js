@@ -22,9 +22,9 @@ function add_field(link, association, content) {
 
 // Given a <a> element, delete the "field" of which it is a part, by (a) locating a neighboring hidden field indicating
 // whether the field should be destroyed on commit and set that to 1, and (b) hiding the entire "field" element.
-function delete_field(link) {
+function delete_field(link, hide_selector) {
     $(link).prev("input[type=\"hidden\"]").val("1");
-    $(link).parent(".field").hide();
+    $(link).parent(hide_selector).hide();
 }
 
 

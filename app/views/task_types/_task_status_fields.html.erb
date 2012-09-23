@@ -1,4 +1,6 @@
 <div class="field">
   <%= f.text_field :description %>
-  <%= link_to_delete_field "[delete]", f %>
+  <%= f.check_box :start  %> <%= f.label :start  %>
+  <%= f.check_box :finish %> <%= f.label :finish %>
+  <%= link_to_delete_field "[delete]", f, '.field' %>
 </div>

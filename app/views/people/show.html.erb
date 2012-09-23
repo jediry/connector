@@ -28,7 +28,48 @@
   <% end %>
 </p>
 
-<p>
+<% show_finished = params[:show_finished] == 'true' %>
+<% tasks = show_finished ? @person.tasks : @person.in_progress_tasks %>
+<div class="grouping_box">
+  <b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>
+  <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), person_path(@person, :show_finished => !show_finished ) %>
+  <br />
+  <% if tasks.empty? %>
+    <i>no tasks</i><br />
+  <% else %>
+    <table>
+      <tr>
+        <th>Task</th>
+        <th>Assigned to</th>
+        <th>Status</th>
+      </tr>
+      <% tasks.each do |t| %>
+        <tr>
+          <td> <%= link_to t.task_type.description, t %> </td>
+          <td> <%= link_to t.user.name, t.user %> </td>
+          <td> <%= t.task_status.description %> </td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+
+  <% task_types = TaskType.all %>
+  <% if task_types.empty? %>
+    <b>No task types are currently defined...please ask your administrator to fix this</b>
+  <% else %>
+    <br />
+    <div>
+      <%= form_tag "/tasks/new", :method => :get do %>
+        Start a new task:
+        <%= select_tag :task_type_id, options_from_collection_for_select(task_types, :id, :description) %>
+        <%= hidden_field_tag :person_id, @person.id %>
+        <%= submit_tag 'Start' %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="grouping_box">
   <% groups = @person.groups %>
   <b>This person is a member of <%= groups.size %> groups(s)</b>
   <% if !groups.empty? %>
@@ -39,16 +80,18 @@
       </div>
     <% end %>
   <% end %>
+  <br />
   <div>
     <% non_member_groups = @person.non_member_groups %>
     <% if !non_member_groups.empty? %>
       <%= form_tag "/people/#{@person.id}/groups", :method => :post do %>
-        Add to a group: <%= select_tag :group_id, options_from_collection_for_select(non_member_groups, :id, :name), :include_blank => true %>
-        <%= submit_tag 'Add' %>
+        Add to a group:
+        <%= select_tag :group_id, options_from_collection_for_select(non_member_groups, :id, :name), :include_blank => true %>
+        <%= submit_tag 'Add', :confirm => 'Are you sure you want to add this user directly to a group, with no follow-up? If this person is not already a part of this group, consider starting a "connect to group" task instead.'  %>
       <% end %>
     <% end %>
   </div>
-</p>
+</div>
 
 
 <%= link_to 'Edit', edit_person_path(@person) %> |

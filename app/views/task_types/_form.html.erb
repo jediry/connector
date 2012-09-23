@@ -12,16 +12,27 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :description %><br />
+    <%= f.label :description, 'What is the goal of this kind of task? (e.g., "Connect to a Community Group")' %><br />
     <%= f.text_field :description %>
   </div>
 
-  <div class="field_group">
-    <p>Here are the different statuses that this type of task may have:</p>
+  <div class="grouping_box">
+    <p>Possible statuses that this type of task may have:</p>
     <%= f.fields_for :task_statuses do |builder| %>
       <%= render 'task_status_fields', :f => builder %>
     <% end %>
     <%= link_to_add_field "[new]", f, :task_statuses %>
+
+    <p>
+      The "status" of a task describes where the task is, in its progression from start to finish. A newly-created task
+      begins having the <b>start</b> status, and remains in-progress until it reaches a <b>finish</b> status; at that
+      point, the task is done.
+    </p>
+    <p>
+      There must be exactly one <b>start</b> status. Also, there must be at least one <b>finish</b> status (otherwise,
+      the task could never end), but there may be more than one (for example, there could be <b>finish</b> statuses of
+      "successfully connected" and "person not responsive", both of which would end the task).
+    </p>
   </div>
 
   <div class="actions">

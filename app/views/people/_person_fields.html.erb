@@ -11,7 +11,10 @@
   <%= validated_email_field :email, f %>
 </div>
 
-<%= f.fields_for :address do |builder| %>
-  <%= render 'address_fields', :f => builder %>
-  <%= link_to_delete_field '[remove]', builder %>
-<% end %>
+<div class="grouping_box">
+  <b>Address</b>
+  <%= f.fields_for :address do |builder| %>
+    <%= render 'address_fields', :f => builder %>
+    <%= link_to_delete_field '[remove address]', builder, '.grouping_box' %>
+  <% end %>
+</div>
