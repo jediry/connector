@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120923185147) do
+ActiveRecord::Schema.define(:version => 20120923222008) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(:version => 20120923185147) do
   end
 
   add_index "groups_people", ["group_id", "person_id"], :name => "index_groups_people_on_group_id_and_person_id", :unique => true
+
+  create_table "notes", :force => true do |t|
+    t.integer  "task_id"
+    t.integer  "user_id"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "notes", ["task_id"], :name => "index_notes_on_task_id"
 
   create_table "people", :force => true do |t|
     t.string   "name"

@@ -81,4 +81,28 @@ class TasksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # POST /tasks/1/notes
+  # POST /tasks/1/notes.json
+  def add_note
+    @task = Task.find(params[:task_id])
+    @task.notes.create({:content => params[:content], :user => current_user })
+    if !params[:task_status_id].blank?
+      @task.task_status = @task.task_type.task_statuses.find(params[:task_status_id])
+    end
+    if !params[:user_id].blank?
+      @task.user = User.find(params[:user_id])
+    end
+    
+    respond_to do |format|
+      if @task.save
+        format.html { redirect_to @task, notice: 'Note successfully addded.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @task, notice: 'Error adding note to task.' }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 end

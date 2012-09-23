@@ -1,6 +1,4 @@
 Connector::Application.routes.draw do
-  resources :tasks
-
   root :to => 'people#my_tasks'
 
   resources :groups
@@ -10,6 +8,9 @@ Connector::Application.routes.draw do
   resources :people
   match '/people/:person_id/groups', :to => 'people#add_to_group', :via => :post
   match '/people/:person_id/groups/:group_id', :to => 'people#remove_from_group', :via => :delete
+
+  resources :tasks
+  match '/tasks/:task_id/notes', :to => 'tasks#add_note', :via => :post
 
   resources :task_types
 

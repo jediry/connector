@@ -20,6 +20,30 @@
   <%= @task.task_status.description %>
 </p>
 
+<p>
+  <b>Notes:</b>
+  <div>
+    <%= form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+      <div style="padding: 0.5em">
+        <%= submit_tag 'Add note' %>
+        <br />Also change status:
+        <%= select_tag :task_status_id, options_from_collection_for_select(@task.task_type.task_statuses, :id, :description), :include_blank => true %>
+        <br />Also reassign:
+        <%= select_tag :user_id, options_from_collection_for_select(User.where(:active => true), :id, :name), :include_blank => true %>
+      </div>
+      <%= text_area_tag 'content', nil, :size => '80x6' %>
+    <% end %>
+  </div>
+  <% @task.notes.each do |n| %>
+    <div class="note">
+      <div class="note_header">
+        <span><%= n.user.name %></span>
+        <span style="float: right"><%= n.created_at.to_formatted_s(:long_ordinal) %></span>
+      </div>
+      <div class="note_body"><%= n.content %></div>
+    </div>
+  <% end %>
+</p>
 
 <%= link_to 'Edit', edit_task_path(@task) %> |
 <%= link_to 'Back', tasks_path %>
