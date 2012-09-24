@@ -1,5 +1,10 @@
 class AddMissingForeignKeys < ActiveRecord::Migration
   def change
+    # Oops...the original create_table migration failed to set up the primary key! O_o
+    change_table :users do |t|
+      t.column :person_id, :primary_key
+    end
+
     add_foreign_key "addresses", "people", :name => "addresses_person_id_fk"
     add_foreign_key "groups", "group_types", :name => "groups_group_type_id_fk"
     add_foreign_key "groups_people", "groups", :name => "groups_people_group_id_fk"
