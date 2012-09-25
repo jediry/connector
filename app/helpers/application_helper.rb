@@ -61,6 +61,16 @@ module ApplicationHelper
     return formatted
   end
 
+  # Friendly title for this task
+  def task_title(task, options = {})
+    p = task.person
+    if options[:link_to_person]
+      raw( task.task_type.title_template.sub /<name>/, link_to(p.name, p) )
+    else
+      raw( task.task_type.title_template.sub /<name>/, p.name )
+    end
+  end
+
   def state_abbreviations
     STATE_ABBREVIATIONS
   end

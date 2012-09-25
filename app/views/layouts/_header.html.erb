@@ -2,7 +2,7 @@
   <header class="navbar">
     <div class="container">
       <nav>
-        <div><%= link_to_unless_current 'My tasks', my_tasks_path %></div>
+        <div><%= link_to_unless_current 'Home', home_path %></div>
         <div><%= link_to_unless_current 'People', people_path %></div>
         <div><%= link_to_unless_current 'Groups', groups_path %></div>
         <% if logged_in_admin? %>

@@ -1,15 +1,6 @@
 class PeopleController < ApplicationController
   before_filter :require_logged_in_user
 
-  def my_tasks
-    @people = Person.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @people }
-    end
-  end
-
   # GET /people
   # GET /people.json
   def index

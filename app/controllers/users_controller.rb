@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
   before_filter :require_logged_in_user
 
+  # GET /
+  def home
+    respond_to do |format|
+      format.html # home.html.erb
+    end
+  end
+
   # GET /users
   # GET /users.json
   def index

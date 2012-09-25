@@ -1,5 +1,5 @@
 Connector::Application.routes.draw do
-  root :to => 'people#my_tasks'
+  root :to => 'users#home'
 
   resources :groups
   match '/groups/:group_id/members', :to => 'groups#add_member', :via => :post
@@ -21,7 +21,7 @@ Connector::Application.routes.draw do
   match '/logout', :to => 'sessions#destroy'
   #match '/logout', :to => 'sessions#destroy', :via => :delete
   match '/connect_wizard', :to => 'people#new'
-  match '/my_tasks', :to => 'people#my_tasks'
+  match '/home', :to => 'users#home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
