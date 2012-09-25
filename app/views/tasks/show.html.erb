@@ -31,11 +31,11 @@
       <%= text_area_tag 'content', nil, :size => '80x6' %>
     <% end %>
   </div>
-  <% @task.notes.each do |n| %>
+  <% @task.notes.order('created_at DESC').each do |n| %>
     <div class="note">
       <div class="note_header">
         <span><%= n.user.name %></span>
-        <span style="float: right"><%= n.created_at.to_formatted_s(:long_ordinal) %></span>
+        <span style="float: right"><%= n.created_at.in_time_zone('Pacific Time (US & Canada)').to_formatted_s(:long_ordinal) %></span>
       </div>
       <div class="note_body"><%= n.content %></div>
     </div>
