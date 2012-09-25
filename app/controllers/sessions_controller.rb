@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     if user and user.authenticate(params[:session][:password])
       # Successfully authenticated. You may pass.
       log_in user
-      redirect_to my_tasks_path
+      redirect_to home_path
     else
       # Uh oh! Wrong u/p, dummy!
       flash.now[:error] = 'Invalid username/password'
