@@ -1,7 +1,23 @@
-<p>
-  <b>Description:</b>
-  <%= @task_type.description %>
-</p>
+<div class="page_title">
+  <h1>Task type: <%= @task_type.description %></h1>
+  <%= link_to '[edit]', edit_task_type_path(@task_type), :class => :action %>
+</div>
+
+
+<div>
+  <b>Example title:</b> "<%= @task_type.title_template.sub(/<name>/, 'John Smith') %>"
+</div>
+
+<br />
+
+<div>
+  Possible statuses of this task:
+  <ul>
+    <% @task_type.task_statuses.each do |ts| %>
+      <li><%= ts.description %></li>
+    <% end %>
+  </ul>
+</div>
 
 
 <%= link_to '[edit this task type]', edit_task_type_path(@task_type), :class => :action %> |

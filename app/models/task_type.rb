@@ -1,11 +1,12 @@
 class TaskType < ActiveRecord::Base
-  attr_accessible :description, :task_statuses_attributes
+  attr_accessible :description, :title_template, :task_statuses_attributes
   has_many :task_statuses, :dependent => :destroy
   has_many :tasks
 
   accepts_nested_attributes_for :task_statuses, :reject_if => lambda { |a| a[:description].blank? }, :allow_destroy => true
 
   validates :description, :presence => true
+  validates :title_template, :presence => true
 
   # Returns the collection of tasks of this type that are currently in-progress
   def in_progress_tasks
