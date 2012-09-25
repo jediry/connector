@@ -1,6 +1,8 @@
-<h1>Editing task_type</h1>
+<div class="page_title">
+  <h1>Edit task type</h1>
+</div>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @task_type %> |
-<%= link_to 'Back', task_types_path %>
+<%= link_to '[cancel edit]', @task_type, :class => :action %> |
+<%= link_to '[go back to task type list]', task_types_path, :class => :action %>

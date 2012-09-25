@@ -1,6 +1,8 @@
-<h1>Editing person</h1>
+<div class="page_title">
+  <h1>Edit person</h1>
+</div>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @person %> |
-<%= link_to 'Back', people_path %>
+<%= link_to '[cancel edit]', @person, :class => :action %> |
+<%= link_to '[go back to people list]', people_path, :class => :action %>

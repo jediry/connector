@@ -1,10 +1,8 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Description:</b>
   <%= @task_type.description %>
 </p>
 
 
-<%= link_to 'Edit', edit_task_type_path(@task_type) %> |
-<%= link_to 'Back', task_types_path %>
+<%= link_to '[edit this task type]', edit_task_type_path(@task_type), :class => :action %> |
+<%= link_to '[go back to task type list]', task_types_path, :class => :action %>

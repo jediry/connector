@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Name:</b>
   <%= @user.person.name %>
@@ -25,7 +23,7 @@
 <% tasks = show_finished ? @user.tasks : @user.in_progress_tasks %>
 <div class="grouping_box">
   <b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>
-  <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), user_path(@user, :show_finished => !show_finished ) %>
+  <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), user_path(@user, :show_finished => !show_finished ), :class => :action %>
   <br />
   <% if tasks.empty? %>
     <i>no tasks</i><br />
@@ -48,5 +46,5 @@
 </div>
 
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to '[edit this user]', edit_user_path(@user), :class => :action %> |
+<%= link_to '[go back to user list]', users_path, :class => :action %>

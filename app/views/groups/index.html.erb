@@ -1,23 +1,26 @@
-<h1>Listing groups</h1>
+<div class="page_title">
+  <h1>Listing groups</h1>
+  <%= link_to '[create new group]', new_group_path, :class => :action %>
+</div>
 
 <table>
   <tr>
     <th>Name</th>
     <th></th>
-    <th></th>
-    <th></th>
+    <% if logged_in_super_admin? %>
+      <th></th>
+    <% end %>
   </tr>
 
 <% @groups.each do |group| %>
   <tr>
-    <td><%= group.name %></td>
-    <td><%= link_to 'Show', group %></td>
-    <td><%= link_to 'Edit', edit_group_path(group) %></td>
-    <td><%= link_to 'Destroy', group, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to group.name, group %></td>
+    <td><%= link_to '[edit]', edit_group_path(group), :class => :action %></td>
+    <% if logged_in_super_admin? %>
+      <td><%= link_to '[destroy]', group, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Group', new_group_path %>

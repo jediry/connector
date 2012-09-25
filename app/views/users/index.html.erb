@@ -1,4 +1,8 @@
-<h1>Listing users</h1>
+<div class="page_title">
+  <h1>Listing users</h1>
+  <%= link_to '[create new user]', new_user_path, :class => :action %>
+</div>
+
 
 <table>
   <tr>
@@ -7,21 +11,22 @@
     <th>Active</th>
     <th></th>
     <th></th>
-    <th></th>
+    <% if logged_in_super_admin? %>
+      <th></th>
+    <% end %>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
-    <td><%= user.person.name %></td>
+    <td><%= link_to user.person.name, user %></td>
     <td><%= user.username %></td>
     <td><%= user.active %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to '[edit]', edit_user_path(user), :class => :action %></td>
+    <% if logged_in_super_admin? %>
+      <td><%= link_to '[destroy]', user, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New User', new_user_path %>

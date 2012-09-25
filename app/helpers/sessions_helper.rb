@@ -18,6 +18,11 @@ module SessionsHelper
     current_user && current_user.admin?
   end
 
+  # A few bits of functionality are tied only to the 'admin' account, which people should generally not be using.
+  def logged_in_super_admin?
+    current_user.username == 'admin'
+  end
+
   def require_logged_in_user
     redirect_to login_url, :notice => 'You must be logged in to view this page. Please log in.' unless logged_in?
   end

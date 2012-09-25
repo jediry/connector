@@ -1,6 +1,8 @@
-<h1>Editing group</h1>
+<div class="page_title">
+  <h1>Edit group</h1>
+</div>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @group %> |
-<%= link_to 'Back', groups_path %>
+<%= link_to '[cancel edit]', @group, :class => :action %> |
+<%= link_to '[go back to group list]', groups_path, :class => :action %>

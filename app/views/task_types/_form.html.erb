@@ -21,7 +21,7 @@
     <%= f.fields_for :task_statuses do |builder| %>
       <%= render 'task_status_fields', :f => builder %>
     <% end %>
-    <%= link_to_add_field "[new]", f, :task_statuses %>
+    <%= link_to_add_field "[new]", f, :task_statuses, :class => :action %>
 
     <p>
       The "status" of a task describes where the task is, in its progression from start to finish. A newly-created task

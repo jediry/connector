@@ -12,6 +12,17 @@
  *= require_tree .
 */
 
+div.page_title {
+    margin-bottom: 1.5em;
+}
+
+
+div.page_title h1 {
+    display: inline;
+    margin-right: 0.5em;
+}
+
+
 header.navbar {
     float: right;
     border: 1px solid black;
@@ -36,3 +47,14 @@ header.navbar div.admin {
     padding: 0.5em 1em 0.5em 1em;
     margin: 0.5em;
 }
+
+
+a:link    { color: #0077AA; }
+a:visited { color: #0077AA; }
+a:hover   { color: #00AACC; }
+a:active  { color: #00AACC; }
+a.action { text-decoration: none; }
+a:link.action    { color: #00AA77; }
+a:visited.action { color: #00AA77; }
+a:hover.action   { color: #00CCAA; text-decoration: underline; }
+a:active.action  { color: #00CCAA; }

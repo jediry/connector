@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Name:</b>
   <%= @person.name %>
@@ -12,7 +10,7 @@
 
 <p>
   <b>Email:</b>
-  <%= @person.email %>
+  <%= mail_to @person.email %>
 </p>
 
 <p>
@@ -32,7 +30,7 @@
 <% tasks = show_finished ? @person.tasks : @person.in_progress_tasks %>
 <div class="grouping_box">
   <b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>
-  <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), person_path(@person, :show_finished => !show_finished ) %>
+  <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), person_path(@person, :show_finished => !show_finished ), :class => :action %>
   <br />
   <% if tasks.empty? %>
     <i>no tasks</i><br />
@@ -76,7 +74,7 @@
     <% groups.each do |g| %>
       <div>
         <%= link_to g.name, g %>
-        <%= link_to '[remove]', "/people/#{@person.id}/groups/#{g.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?' %>
+        <%= link_to '[remove]', "/people/#{@person.id}/groups/#{g.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?', :class => :action %>
       </div>
     <% end %>
   <% end %>
@@ -87,12 +85,12 @@
       <%= form_tag "/people/#{@person.id}/groups", :method => :post do %>
         Add to a group:
         <%= select_tag :group_id, options_from_collection_for_select(non_member_groups, :id, :name), :include_blank => true %>
-        <%= submit_tag 'Add', :confirm => 'Are you sure you want to add this user directly to a group, with no follow-up? If this person is not already a part of this group, consider starting a "connect to group" task instead.'  %>
+        <%= submit_tag 'Add', :confirm => 'Are you sure you want to add this user directly to a group, with no follow-up? If this person is not already a part of this group, consider starting a "connect to group" task instead.', :class => :action %>
       <% end %>
     <% end %>
   </div>
 </div>
 
 
-<%= link_to 'Edit', edit_person_path(@person) %> |
-<%= link_to 'Back', people_path %>
+<%= link_to '[edit this person]', edit_person_path(@person), :class => :action %> |
+<%= link_to '[go back to people list]', people_path, :class => :action %>

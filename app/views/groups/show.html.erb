@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>Name:</b>
   <%= @group.name %>
@@ -26,16 +24,26 @@
   <pre><%= @group.restrictions %></pre>
 </p>
 
-<p>
+<div class="grouping_box">
   <% members = @group.members %>
   <b>This group has <%= members.size %> member(s)</b>
   <% if !members.empty? %>
-    <% members.each do |m| %>
-      <div>
-        <%= link_to m.name, m %>
-        <%= link_to '[remove]', "/groups/#{@group.id}/members/#{m.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?' %>
-      </div>
-    <% end %>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+      <% members.each do |m| %>
+        <tr>
+          <td><%= link_to m.name, m %></td>
+          <td><%= format_telephone m.phone %></td>
+          <td><%= mail_to m.email %></td>
+          <td><%= link_to '[remove]', "/groups/#{@group.id}/members/#{m.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?', :class => :action %></td>
+        </tr>
+      <% end %>
+    </table>
   <% end %>
   <div>
     <% non_members = @group.non_members %>
@@ -46,8 +54,8 @@
       <% end %>
     <% end %>
   </div>
-</p>
+</div>
 
 
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+<%= link_to '[edit this group]', edit_group_path(@group), :class => :action %> |
+<%= link_to '[go back to group list]', groups_path, :class => :action %>

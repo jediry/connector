@@ -15,6 +15,6 @@
   <b>Address</b>
   <%= f.fields_for :address do |builder| %>
     <%= render 'address_fields', :f => builder %>
-    <%= link_to_delete_field '[remove address]', builder, '.grouping_box' %>
+    <%= link_to_delete_field '[remove address]', builder, '.grouping_box', :class => :action %>
   <% end %>
 </div>
