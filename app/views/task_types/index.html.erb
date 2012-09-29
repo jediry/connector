@@ -13,7 +13,7 @@
     <% end %>
   </tr>
 
-<% @task_types.each do |task_type| %>
+<% TaskType.order(:description).all.each do |task_type| %>
   <tr>
     <td><%= link_to task_type.description, task_type %></td>
     <td><%= link_to '[edit]', edit_task_type_path(task_type), :class => :action %></td>
@@ -23,5 +23,3 @@
   </tr>
 <% end %>
 </table>
-
-<br />

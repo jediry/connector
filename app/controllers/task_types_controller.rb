@@ -4,11 +4,9 @@ class TaskTypesController < ApplicationController
   # GET /task_types
   # GET /task_types.json
   def index
-    @task_types = TaskType.all
-
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @task_types }
+      format.json { render json: TaskType.all }
     end
   end
 
