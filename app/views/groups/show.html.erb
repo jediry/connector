@@ -33,6 +33,7 @@
         <th>Name</th>
         <th>Phone</th>
         <th>Email</th>
+        <th>Church member?</th>
         <th></th>
       </tr>
       <% members.each do |m| %>
@@ -40,6 +41,7 @@
           <td><%= link_to m.name, m %></td>
           <td><%= format_telephone m.phone %></td>
           <td><%= mail_to m.email %></td>
+          <td><%= m.member ? 'Yes' : 'No' %></td>
           <td><%= link_to '[remove]', "/groups/#{@group.id}/members/#{m.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?', :class => :action %></td>
         </tr>
       <% end %>

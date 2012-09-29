@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-  attr_accessible :name, :email, :phone, :address_attributes
+  attr_accessible :name, :email, :phone, :member, :address_attributes
   has_one :address, :dependent => :destroy
   has_and_belongs_to_many :groups, :uniq => true
   has_many :tasks
