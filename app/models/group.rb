@@ -10,12 +10,12 @@ class Group < ActiveRecord::Base
 
   # Returns the collection of people who are members of this group
   def members
-    self.people
+    self.people.order(:name)
   end
 
   # Returns the collection of people who are not members of this group
   def non_members
-    Person.joins("left outer join ( select * from groups_people where group_id = #{self.id} ) as gp on people.id = gp.person_id").where('gp.group_id is NULL')
+    Person.joins("left outer join ( select * from groups_people where group_id = #{self.id} ) as gp on people.id = gp.person_id").where('gp.group_id is NULL').order(:name)
   end
 
 private

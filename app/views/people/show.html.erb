@@ -35,7 +35,7 @@
   <% if tasks.empty? %>
     <i>no tasks</i><br />
   <% else %>
-    <table>
+    <table class="index_table">
       <tr>
         <th>Task</th>
         <th>Assigned to</th>
@@ -51,7 +51,7 @@
     </table>
   <% end %>
 
-  <% task_types = TaskType.all %>
+  <% task_types = TaskType.order(:description).all %>
   <% if task_types.empty? %>
     <b>No task types are currently defined...please ask your administrator to fix this</b>
   <% else %>
@@ -68,15 +68,21 @@
 </div>
 
 <div class="grouping_box">
-  <% groups = @person.groups %>
+  <% groups = @person.groups.order(:description) %>
   <b>This person is a member of <%= groups.size %> groups(s)</b>
   <% if !groups.empty? %>
-    <% groups.each do |g| %>
-      <div>
-        <%= link_to g.name, g %>
-        <%= link_to '[remove]', "/people/#{@person.id}/groups/#{g.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?', :class => :action %>
-      </div>
-    <% end %>
+    <table class="index_table">
+      <tr>
+        <th>Group</th>
+        <th></th>
+      </tr>
+      <% groups.each do |g| %>
+        <tr>
+          <td><%= link_to g.name, g %></td>
+          <td><%= link_to '[remove]', "/people/#{@person.id}/groups/#{g.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?', :class => :action %></td>
+        </tr>
+      <% end %>
+    </table>
   <% end %>
   <br />
   <div>
