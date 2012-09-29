@@ -43,6 +43,7 @@ module ApplicationHelper
     f.collection_select name, Group.all, :id, :name, options
   end
 
+  # Formats a 10-digit phone number like '(911) 123-4567'. Any additional digits are treated as the extension.
   def format_telephone(number)
     if (number.blank?)
       return ''
@@ -59,6 +60,23 @@ module ApplicationHelper
     end
 
     return formatted
+  end
+
+  # Formats a body of plain text for display as HTML. Newlines are turned into <br /> tags, and URLs are turned into
+  # hyperlinks.
+  def format_plain_text(text)
+    # First, escape any HTML that might be in there. Cross-site scripting baaaaad.
+    text = h( text )
+
+    # Now replace newlines
+    text = text.gsub /$/, '<br />'
+
+    # Now replace URLs
+    text = text.gsub /\b(http:\/\/[A-Za-z0-9_.%\/-]+)/, '<a href="\1">\1</a>'
+    text = text.gsub /(?<!http:\/\/)\b(www\.[A-Za-z0-9_.%\/-]+)/, '<a href="http://\1">\1</a>'
+    text = text.gsub /([0-9a-z][0-9a-z.-]+[0-9a-z]@[0-9a-z][0-9a-z.-]+[0-9a-z])/xi, '<a href="mailto:\1">\1</a>'
+
+    raw( text )
   end
 
   # Friendly title for this task
