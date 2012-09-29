@@ -15,6 +15,7 @@ Connector::Application.routes.draw do
   resources :task_types
 
   resources :users
+  match '/todo', :to => 'users#todo', :via => :get
 
   resources :sessions, :only => [ :new, :create, :destroy ]
   match '/login', :to => 'sessions#new'
