@@ -12,6 +12,9 @@
  *= require_tree .
 */
 
+h1 { font-size: x-large; }
+h2 { font-size: larger; }
+
 div.page_title {
     margin-bottom: 1.5em;
 }
@@ -43,9 +46,35 @@ header.navbar div.admin {
 
 
 .grouping_box {
-    border: 1px solid #4B7399;
+    border: 1px dotted #4B7399;
     padding: 0.5em 1em 0.5em 1em;
     margin: 0.5em;
+}
+
+
+table.index_table {
+    border-collapse: collapse;
+}
+
+
+table.index_table th {
+    border-bottom: 1px solid black;
+    text-align: left;
+}
+
+
+table.index_table td, table.index_table th {
+    padding: 0.25em 0.5em 0.25em 0.5em;
+}
+
+
+table.index_table tr:nth-child(odd) td {
+    background-color: #EEEEFF;
+}
+
+
+table.index_table tr:nth-child(even) td {
+    background-color: #FFFFDD;
 }
 
 

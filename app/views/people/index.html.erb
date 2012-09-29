@@ -3,29 +3,26 @@
   <%= link_to '[create new person]', new_person_path, :class => :action %>
 </div>
 
-<table>
+<table class="index_table">
   <tr>
     <th>Name</th>
     <th>Phone</th>
     <th>Email</th>
-    <th></th>
     <th></th>
     <% if logged_in_super_admin? %>
       <th></th>
     <% end %>
   </tr>
 
-<% @people.each do |person| %>
-  <tr>
-    <td><%= link_to person.name, person %></td>
-    <td><%= format_telephone person.phone %></td>
-    <td><%= mail_to person.email, person.email %></td>
-    <td><%= link_to '[edit]', edit_person_path(person), :class => :action %></td>
-    <% if logged_in_super_admin? %>
-      <td><%= link_to '[destroy]', person, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
-    <% end %>
-  </tr>
-<% end %>
+  <% Person.order(:name).all.each do |person| %>
+    <tr>
+      <td><%= link_to person.name, person %></td>
+      <td><%= format_telephone person.phone %></td>
+      <td><%= mail_to person.email, person.email %></td>
+      <td><%= link_to '[edit]', edit_person_path(person), :class => :action %></td>
+      <% if logged_in_super_admin? %>
+        <td><%= link_to '[destroy]', person, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
+      <% end %>
+    </tr>
+  <% end %>
 </table>
-
-<br />

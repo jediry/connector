@@ -7,12 +7,12 @@
 <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), tasks_path(:show_finished => !show_finished ), :class => :action %>
 <br />
 
-<% TaskType.all.each do |tt| %>
+<% TaskType.order(:created_at).all.each do |tt| %>
   <% tasks = show_finished ? tt.tasks : tt.in_progress_tasks %>
   <% if !tasks.empty? %>
     <div class="grouping_box">
       <h2><%= tt.description %></h2>
-      <table>
+      <table class="index_table">
         <tr>
           <th>Person</th>
           <th>Assigned to</th>

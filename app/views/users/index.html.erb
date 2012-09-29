@@ -3,30 +3,26 @@
   <%= link_to '[create new user]', new_user_path, :class => :action %>
 </div>
 
-
-<table>
+<table class="index_table">
   <tr>
     <th>Name</th>
     <th>Username</th>
     <th>Active</th>
-    <th></th>
     <th></th>
     <% if logged_in_super_admin? %>
       <th></th>
     <% end %>
   </tr>
 
-<% @users.each do |user| %>
-  <tr>
-    <td><%= link_to user.person.name, user %></td>
-    <td><%= user.username %></td>
-    <td><%= user.active %></td>
-    <td><%= link_to '[edit]', edit_user_path(user), :class => :action %></td>
-    <% if logged_in_super_admin? %>
-      <td><%= link_to '[destroy]', user, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
-    <% end %>
-  </tr>
-<% end %>
+  <% User.joins(:person).order('people.name').all.each do |user| %>
+    <tr>
+      <td><%= link_to user.person.name, user %></td>
+      <td><%= user.username %></td>
+      <td><%= user.active %></td>
+      <td><%= link_to '[edit]', edit_user_path(user), :class => :action %></td>
+      <% if logged_in_super_admin? %>
+        <td><%= link_to '[destroy]', user, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
+      <% end %>
+    </tr>
+  <% end %>
 </table>
-
-<br />
