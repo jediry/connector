@@ -78,6 +78,13 @@ table.index_table tr:nth-child(even) td {
 }
 
 
+td.page_column {
+    vertical-align: top;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+
 a:link    { color: #0077AA; }
 a:visited { color: #0077AA; }
 a:hover   { color: #00AACC; }
