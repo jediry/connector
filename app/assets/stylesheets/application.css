@@ -45,6 +45,16 @@ header.navbar div.admin {
 }
 
 
+footer {
+    border: 1px solid black;
+    background-color: white;
+    width: 75%;
+    margin: 2em auto 2em auto;
+    padding: 0.25em 1em 0.25em 1em;
+    text-align: center;
+}
+
+
 .grouping_box {
     border: 1px dotted #4B7399;
     padding: 0.5em 1em 0.5em 1em;
