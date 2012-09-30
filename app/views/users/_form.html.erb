@@ -19,22 +19,20 @@
     <%= f.label :username %><br />
     <%= f.text_field :username %>
   </div>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
-  <div class="field">
-    <%= f.check_box :active %>
-    <%= f.label :active %>
-  </div>
-  <div class="field">
-    <%= f.check_box :admin %>
-    <%= f.label :admin, 'Administrator' %>
-  </div>
+
+  <% if logged_in_admin? %>
+    <div class="field">
+      <%= f.check_box :active %>
+      <%= f.label :active %>
+    </div>
+    <div class="field">
+      <%= f.check_box :admin %>
+      <%= f.label :admin, 'Administrator' %>
+    </div>
+  <% else %>
+    <%= f.hidden_field :active %>
+    <%= f.hidden_field :admin %>
+  <% end %>
 
   <div class="actions">
     <%= f.submit %>

@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   self.primary_key = :person_id
 
-  attr_accessible :username, :password, :password_confirmation, :active, :admin, :person_attributes
+  attr_accessible :username, :password, :password_confirmation, :must_change_password, :active, :admin, :person_attributes
   belongs_to :person, :dependent => :destroy
   has_many :groups
   has_many :tasks
@@ -21,8 +21,8 @@ class User < ActiveRecord::Base
 
   validates :person, :presence => true
   validates :username, :presence => true, :uniqueness => { :case_sensitive => false }
-  validates :password, :presence => true, :length => { :minimum => 4 }
-  validates :password_confirmation, :presence => true
+#  validates :password, :length => { :minimum => 4 }
+#  validates :password_confirmation, :presence => true
 
   def name
     self.person.name
@@ -35,7 +35,9 @@ class User < ActiveRecord::Base
 private
   # Create a random token for allowing the user's browser to "remember me"
   def create_remember_token
-    self.remember_token = SecureRandom.urlsafe_base64
+    if self.remember_token.nil?
+      self.remember_token = SecureRandom.urlsafe_base64
+    end
   end
 
 end

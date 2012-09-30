@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120929223356) do
+ActiveRecord::Schema.define(:version => 20120930073957) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -106,10 +106,11 @@ ActiveRecord::Schema.define(:version => 20120929223356) do
     t.string   "username"
     t.string   "password_digest"
     t.string   "remember_token"
-    t.boolean  "active",          :default => true
+    t.boolean  "active",               :default => true
     t.boolean  "admin"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.boolean  "must_change_password", :default => false, :null => false
   end
 
   add_index "users", ["person_id"], :name => "index_users_on_person_id"

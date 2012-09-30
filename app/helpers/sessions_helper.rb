@@ -10,8 +10,12 @@ module SessionsHelper
     redirect_to login_url, :notice => 'You have been logged out.'
   end
 
+  def authenticated?
+    !current_user.nil?
+  end
+
   def logged_in?
-    not current_user.nil?
+    authenticated? && !current_user.must_change_password
   end
 
   def logged_in_admin?
@@ -23,12 +27,18 @@ module SessionsHelper
     current_user.username == 'admin'
   end
 
+  def require_authenticated_user
+    redirect_to login_path, :notice => 'You must be logged in to view this page. Please log in.' unless authenticated?
+  end
+
   def require_logged_in_user
-    redirect_to login_url, :notice => 'You must be logged in to view this page. Please log in.' unless logged_in?
+    require_authenticated_user
+    redirect_to password_user_path(current_user), :notice => 'You must change your password first.' unless !current_user.must_change_password
   end
 
   def require_logged_in_admin
-    redirect_to login_url, :notice => 'You must be an administrator to view this page. Please log in.' unless logged_in_admin?
+    require_logged_in_user
+    redirect_to home_path, :notice => 'You must be an administrator to view this page.' unless logged_in_admin?
   end
 
   def current_user=(user)

@@ -1,11 +1,19 @@
 class UsersController < ApplicationController
-  before_filter :require_logged_in_user
+  before_filter :require_authenticated_user, :only => [:update, :password]
+  before_filter :require_logged_in_admin, :only => [:new, :create, :destroy]
+  before_filter :require_current_user_or_admin, :only => [:update, :password]
+  before_filter :require_logged_in_user, :except => [:update, :password]
 
   # GET /
   def home
     respond_to do |format|
       format.html # home.html.erb
     end
+  end
+
+  # GET /users/1/password
+  def password
+    @user = User.find(params[:id])
   end
 
   # GET /users
@@ -50,6 +58,13 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
 
+    # If no password was provided, default to the username, but require the user to change on next login
+    if params[:user][:password].blank? and params[:user][:password].blank?
+      @user.password = params[:user][:username]
+      @user.password_confirmation = params[:user][:username]
+      @user.must_change_password = true
+    end
+
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -65,6 +80,11 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
+
+    # Non-admins shouldn't be able to make themselves admins...that would be less than awesome
+    if !logged_in_admin?
+      params[:user][:admin] = false
+    end
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
@@ -91,5 +111,13 @@ class UsersController < ApplicationController
 
   # GET /todo
   def todo
+  end
+
+private
+  # Only admins get access to users besides themselves
+  def require_current_user_or_admin
+    if !current_user.admin
+      redirect_to home_path, :notice => 'Only administrators may edit other people\'s user accounts' unless current_user.id == params[:id].to_i
+    end
   end
 end

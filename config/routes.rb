@@ -14,15 +14,18 @@ Connector::Application.routes.draw do
 
   resources :task_types
 
-  resources :users
+  resources :users do
+    member do
+      get 'password'
+    end
+  end
+  match '/home', :to => 'users#home'
   match '/todo', :to => 'users#todo', :via => :get
 
   resources :sessions, :only => [ :new, :create, :destroy ]
   match '/login', :to => 'sessions#new'
   match '/logout', :to => 'sessions#destroy'
   #match '/logout', :to => 'sessions#destroy', :via => :delete
-  match '/connect_wizard', :to => 'people#new'
-  match '/home', :to => 'users#home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
