@@ -2,8 +2,8 @@
 
 <p>
   <b>Meeting:</b>
-  <%= day_of_week_name @group.meeting_day %>
-  <%= @group.meeting_time.to_s(:time) %>
+  <%= day_of_week_name @group.meeting_day %>s,
+  <%= @group.meeting_time.strftime('%l:%M %p') %>
 </p>
 
 <p>
