@@ -1,7 +1,5 @@
-<div class="page_title">
-  <h1>Listing users</h1>
-  <%= link_to '[create new user]', new_user_path, :class => :action %>
-</div>
+<% provide(:title, 'Listing users') %>
+<p><%= link_to '[create new user]', new_user_path, :class => :action %></p>
 
 <table class="index_table">
   <tr>

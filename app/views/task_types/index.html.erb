@@ -1,7 +1,5 @@
-<div class="page_title">
-  <h1>Listing task types</h1>
-  <%= link_to '[create new task type]', new_task_type_path, :class => :action %>
-</div>
+<% provide(:title, 'Listing task types') %>
+<%= link_to '[create new task type]', new_task_type_path, :class => :action %>
 
 <table class="index_table">
   <tr>

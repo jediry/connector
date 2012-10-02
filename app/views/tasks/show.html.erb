@@ -1,14 +1,7 @@
-<div class="page_title">
-  <h1><%= task_title @task, :link_to_person => true %></h1>
-</div>
+<% provide(:title, "Task: #{task_title @task}") %>
 
 <p>
-  <b>Task type:</b>
-  <%= @task.task_type.description %>
-</p>
-
-<p>
-  <b>User:</b>
+  <b>Assigned to:</b>
   <%= link_to @task.user.name, @task.user %>
 </p>
 

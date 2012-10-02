@@ -1,35 +1,34 @@
-<p>
-  <b>Name:</b>
-  <%= @person.name %>
-</p>
+<% provide(:title, "Person: #{@person.name}") %>
 
-<p>
-  <b>Phone:</b>
-  <%= format_telephone @person.phone %>
-</p>
+<% if !@person.phone.nil? %>
+  <p>
+    <b>Phone:</b>
+    <%= format_telephone @person.phone %>
+  </p>
+<% end %>
 
-<p>
-  <b>Email:</b>
-  <%= mail_to @person.email %>
-</p>
+<% if !@person.email.nil? %>
+  <p>
+    <b>Email:</b>
+    <%= mail_to @person.email %>
+  </p>
+<% end %>
 
 <p>
   <b>Church member:</b>
   <%= @person.member ? 'Yes' : 'No' %>
 </p>
 
-<p>
-  <b>Address:</b>
-  <% if @person.address.nil? %>
-    <i>none</i>
-  <% else %>
+<% if !@person.address.nil? %>
+  <p>
+    <b>Address:</b>
     <%= @person.address.street %><br />
     <% if not @person.address.detail.nil? %>
       <%= @person.address.detail %><br />
     <% end %>
     <%= @person.address.city %>, <%= @person.address.state %> <%= @person.address.zip %>
-  <% end %>
-</p>
+  </p>
+<% end %>
 
 <% show_finished = params[:show_finished] == 'true' %>
 <% tasks = show_finished ? @person.tasks : @person.in_progress_tasks %>

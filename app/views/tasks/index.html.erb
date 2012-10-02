@@ -1,6 +1,4 @@
-<div class="page_title">
-  <h1>Listing tasks</h1>
-</div>
+<% provide(:title, 'Listing tasks') %>
 
 <% show_finished = params[:show_finished] == 'true' %>
 <b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>

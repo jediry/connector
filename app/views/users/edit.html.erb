@@ -1,8 +1,7 @@
-<div class="page_title">
-  <h1>Edit user</h1>
-</div>
+<% provide(:title, "Edit user: #{@user.name}") %>
 
 <%= render 'form' %>
 
 <%= link_to '[cancel edit]', @user, :class => :action %> |
+<%= link_to '[change password]', password_user_path(@user), :class => :action %> |
 <%= link_to '[go back to user list]', users_path, :class => :action %>

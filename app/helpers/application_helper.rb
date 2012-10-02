@@ -11,6 +11,22 @@ module ApplicationHelper
   }
   STATE_ABBREVIATIONS = %w( AL AK AZ AS CA CO CN DE FL GA HI ID IL IN IA KS KY LA ME MA MS MI MN MS MO MT NB NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY )
 
+  def full_page_title(title)
+    if !title.empty?
+      "MHDT Connect | #{title}"
+    else
+      'MHDT Connect'
+    end
+  end
+
+  def page_title(title)
+    if !title.empty?
+      title
+    else
+      'MHDT Connect'
+    end
+  end
+
   def link_to_add_field(name, f, association, html_options = {})
     new_object = f.object.class.reflect_on_association(association).klass.new
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|

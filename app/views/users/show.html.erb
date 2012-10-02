@@ -1,3 +1,5 @@
+<% provide(:title, "User: #{@user.name}") %>
+
 <p>
   <b>Name:</b>
   <%= @user.person.name %>
@@ -10,13 +12,13 @@
 
 <p>
   <b>Active:</b>
-  <%= @user.active %>
+  <%= @user.active ? 'Yes' : 'No' %>
 </p>
 
 
 <p>
   <b>Administrator:</b>
-  <%= @user.admin %>
+  <%= @user.admin ? 'Yes' : 'No' %>
 </p>
 
 <% show_finished = params[:show_finished] == 'true' %>

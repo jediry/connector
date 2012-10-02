@@ -1,7 +1,5 @@
-<div class="page_title">
-  <h1>Listing groups</h1>
-  <%= link_to '[create new group]', new_group_path, :class => :action %>
-</div>
+<% provide(:title, 'Listing groups') %>
+<%= link_to '[create new group]', new_group_path, :class => :action %>
 
 <table>
   <tr>
