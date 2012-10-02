@@ -13,15 +13,17 @@
 <p>
   <b>Notes:</b>
   <div>
-    <%= form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
-      <div style="padding: 0.5em">
-        <%= submit_tag 'Add note' %>
-        <br />Also change status:
-        <%= select_tag :task_status_id, options_from_collection_for_select(@task.task_type.task_statuses, :id, :description), :include_blank => true %>
-        <br />Also reassign:
-        <%= select_tag :user_id, options_from_collection_for_select(User.where(:active => true), :id, :name), :include_blank => true %>
-      </div>
-      <%= text_area_tag 'content', nil, :size => '80x6' %>
+    <%= link_to_show '[add a note]' do %>
+      <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+        <div style="padding: 0.5em">
+          <%= submit_tag 'Add note' %>
+          <br />Also change status:
+          <%= select_tag :task_status_id, options_from_collection_for_select(@task.task_type.task_statuses, :id, :description), :include_blank => true %>
+          <br />Also reassign:
+          <%= select_tag :user_id, options_from_collection_for_select(User.where(:active => true), :id, :name), :include_blank => true %>
+        </div>
+        <%= text_area_tag 'content', nil, :size => '80x6' %>
+      <% end %>
     <% end %>
   </div>
   <% @task.notes.order('created_at DESC').each do |n| %>

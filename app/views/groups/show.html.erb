@@ -48,12 +48,15 @@
       <% end %>
     </table>
   <% end %>
+  <br />
   <div>
     <% non_members = @group.non_members %>
     <% if !non_members.empty? %>
-      <%= form_tag "/groups/#{@group.id}/members", :method => :post do %>
-        Add someone: <%= select_tag :person_id, options_from_collection_for_select(non_members, :id, :name), :include_blank => true %>
-        <%= submit_tag 'Add' %>
+      <%= link_to_show '[add someone]' do %>
+        <% form_tag "/groups/#{@group.id}/members", :method => :post do %>
+          Add someone: <%= select_tag :person_id, options_from_collection_for_select(non_members, :id, :name), :include_blank => true %>
+          <%= submit_tag 'Add' %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

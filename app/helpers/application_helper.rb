@@ -39,6 +39,13 @@ module ApplicationHelper
     f.hidden_field(:_destroy) + link_to_function(name, "delete_field(this, \"#{escape_javascript(hide_selector)}\")", html_options)
   end
 
+  def link_to_show(name)
+    raw(
+      '<a style="display: block" class="toggle_link" onclick="$(this).hide(); $(this).next().show()">' + name + '</a>' +
+      '<div style="display: none">' + yield + '</div>'
+    )
+  end
+
   def validated_telephone_field(name, f)
     f.telephone_field name, :value => format_telephone(f.object.read_attribute(name)), :onchange => "format_telephone_field(this)"
   end

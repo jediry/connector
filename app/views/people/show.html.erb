@@ -33,11 +33,13 @@
   <% else %>
     <br />
     <div>
-      <%= form_tag "/tasks/new", :method => :get do %>
-        Start a new task:
-        <%= select_tag :task_type_id, options_from_collection_for_select(task_types, :id, :description) %>
-        <%= hidden_field_tag :person_id, @person.id %>
-        <%= submit_tag 'Start' %>
+      <%= link_to_show '[start a new task]' do %>
+        <% form_tag "/tasks/new", :method => :get do %>
+          Start a new task:
+          <%= select_tag :task_type_id, options_from_collection_for_select(task_types, :id, :description) %>
+          <%= hidden_field_tag :person_id, @person.id %>
+          <%= submit_tag 'Start' %>
+        <% end %>
       <% end %>
     </div>
   <% end %>
@@ -64,10 +66,12 @@
   <div>
     <% non_member_groups = @person.non_member_groups %>
     <% if !non_member_groups.empty? %>
-      <%= form_tag "/people/#{@person.id}/groups", :method => :post do %>
-        Add to a group:
-        <%= select_tag :group_id, options_from_collection_for_select(non_member_groups, :id, :name), :include_blank => true %>
-        <%= submit_tag 'Add', :confirm => 'Are you sure you want to add this user directly to a group, with no follow-up? If this person is not already a part of this group, consider starting a "connect to group" task instead.', :class => :action %>
+      <%= link_to_show '[add to a group]' do %>
+        <% form_tag "/people/#{@person.id}/groups", :method => :post do %>
+          Add to a group:
+          <%= select_tag :group_id, options_from_collection_for_select(non_member_groups, :id, :name), :include_blank => true %>
+          <%= submit_tag 'Add', :confirm => 'Are you sure you want to add this user directly to a group, with no follow-up? If this person is not already a part of this group, consider starting a "connect to group" task instead.', :class => :action %>
+        <% end %>
       <% end %>
     <% end %>
   </div>
