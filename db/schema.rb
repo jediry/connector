@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120930073957) do
+ActiveRecord::Schema.define(:version => 20121002051943) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -38,10 +38,11 @@ ActiveRecord::Schema.define(:version => 20120930073957) do
     t.integer  "group_type_id"
     t.integer  "meeting_day"
     t.time     "meeting_time"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.text     "description"
     t.text     "restrictions"
+    t.boolean  "active",        :default => true, :null => false
   end
 
   create_table "groups_people", :id => false, :force => true do |t|
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20120930073957) do
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
     t.boolean  "member",     :default => false, :null => false
+    t.boolean  "active",     :default => true,  :null => false
   end
 
   create_table "task_statuses", :force => true do |t|

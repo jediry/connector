@@ -19,6 +19,11 @@
   <%= @person.member ? 'Yes' : 'No' %>
 </p>
 
+<p>
+  <b>Active:</b>
+  <%= @person.active ? 'Yes' : 'No' %>
+</p>
+
 <% if !@person.address.nil? %>
   <p>
     <b>Address:</b>

@@ -1,5 +1,5 @@
 class Group < ActiveRecord::Base
-  attr_accessible :name, :user_id, :group_type_id, :description, :restrictions, :meeting_day, :meeting_time
+  attr_accessible :name, :user_id, :group_type_id, :active, :description, :restrictions, :meeting_day, :meeting_time
   belongs_to :user
   belongs_to :group_type
   has_and_belongs_to_many :people, :uniq => true

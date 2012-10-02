@@ -1,11 +1,6 @@
 <% provide(:title, "Group: #{@group.name}") %>
 
 <p>
-  <b>Name:</b>
-  <%= @group.name %>
-</p>
-
-<p>
   <b>Meeting:</b>
   <%= day_of_week_name @group.meeting_day %>
   <%= @group.meeting_time.to_s(:time) %>
@@ -24,6 +19,10 @@
 <p>
   <b>Restrictions:</b><br />
   <%= format_plain_text @group.restrictions %>
+</p>
+
+<p>
+  <b>Active:</b> <%= @group.active ? 'Yes' : 'No' %>
 </p>
 
 <div class="grouping_box">
