@@ -1,0 +1,30 @@
+<% if !person.phone.blank? %>
+  <p>
+    <b>Phone:</b>
+    <%= format_telephone person.phone %>
+  </p>
+<% end %>
+
+<% if !person.email.blank? %>
+  <p>
+    <b>Email:</b>
+    <%= mail_to person.email %>
+  </p>
+<% end %>
+
+<p>
+  <b>Church member:</b>
+  <%= person.member ? 'Yes' : 'No' %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= person.active ? 'Yes' : 'No' %>
+</p>
+
+<% if !person.address.nil? %>
+  <p>
+    <b>Address:</b>
+    <%= render 'shared/address', :address => person.address %>
+  </p>
+<% end %>

@@ -65,14 +65,15 @@ module ApplicationHelper
       return ''
     end
 
-    area = number[0, 3].rjust(3)
-    prefix = number[3, 3].rjust(3)
-    suffix = number[6, 4].rjust(4)
-    ext = number[10..-1]
+    length = number.length
+
+    area   = length > 0 ? number[0, 3].rjust(3) : '   '
+    prefix = length > 3 ? number[3, 3].rjust(3) : '   '
+    suffix = length > 6 ? number[6, 4].rjust(4) : '    '
 
     formatted = "(#{area}) #{prefix}-#{suffix}"
-    if !ext.blank?
-      formatted += " x#{ext}"
+    if length > 10
+      formatted += " x#{number[10..-1]}"
     end
 
     return formatted

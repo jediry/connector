@@ -6,15 +6,16 @@
 </p>
 
 <p>
-  <b>Active:</b>
+  <b>Active user:</b>
   <%= @user.active ? 'Yes' : 'No' %>
 </p>
-
 
 <p>
   <b>Administrator:</b>
   <%= @user.admin ? 'Yes' : 'No' %>
 </p>
+
+<%= render 'shared/person', :person => @user.person %>
 
 <% show_finished = params[:show_finished] == 'true' %>
 <% tasks = show_finished ? @user.tasks : @user.in_progress_tasks %>

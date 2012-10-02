@@ -6,11 +6,12 @@ class Person < ActiveRecord::Base
 
   accepts_nested_attributes_for :address, :allow_destroy => true
 
+  # We don't care whether the user entered the phone like 2061234567 or (206) 123-4567...we store it as just digits
   before_validation :strip_phone_nonnumeric
 
   validates :name, :presence => true
-  validates :phone, :length => { :minimum => 10 }
-  validates :email, :format => { :with => /^[0-9a-z][0-9a-z.-]+[0-9a-z]@[0-9a-z][0-9a-z.-]+[0-9a-z]$/xi }
+  validates :phone, :length => { :minimum => 10 }, :unless => 'phone.blank?'
+  validates :email, :format => { :with => /^[0-9a-z_][0-9a-z_.-]+[0-9a-z_]@[0-9a-z_][0-9a-z_.-]+[0-9a-z]$/xi }, :unless => 'email.blank?'
 
   # Returns the collection of tasks related to this person that are currently in-progress
   def in_progress_tasks
@@ -20,6 +21,25 @@ class Person < ActiveRecord::Base
   # Returns the collection of groups that this person is not a member of
   def non_member_groups
     Group.joins("left outer join ( select * from groups_people where person_id = #{self.id} ) as gp on groups.id = gp.group_id").where('gp.person_id is NULL')
+  end
+
+  # Build objects for any missing associations
+  def build_if_missing
+    if self.address.nil?
+      self.build_address
+    end
+  end
+
+  # Static method to sanitze an attributes hash destined for update_attributes
+  def self.sanitize_attributes(person_attributes)
+    if !person_attributes.nil?
+      person_attributes.delete(:phone) if !person_attributes[:phone].nil? && person_attributes[:phone].blank?
+      person_attributes.delete(:email) if !person_attributes[:email].nil? && person_attributes[:email].blank?
+      if Address.sanitize_attributes person_attributes[:address_attributes]
+        person_attributes.delete(:address_attributes)
+      end
+    end
+    return false # Don't delete me!
   end
 
 private

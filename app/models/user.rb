@@ -32,6 +32,22 @@ class User < ActiveRecord::Base
     self.person_id
   end
 
+  # Build objects for any missing associations
+  def build_if_missing
+    if self.person.nil?
+      self.build_person
+    end
+    self.person.build_if_missing
+  end
+
+  # Static method to sanitze an attributes hash destined for update_attributes
+  def self.sanitize_attributes(user_attributes)
+    if !user_attributes.nil?
+      Person.sanitize_attributes user_attributes[:person_attributes]
+    end
+    return false # Don't delete me
+  end
+
 private
   # Create a random token for allowing the user's browser to "remember me"
   def create_remember_token

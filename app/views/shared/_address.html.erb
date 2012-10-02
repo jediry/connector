@@ -1,0 +1,7 @@
+<div class="address">
+  <%= address.street %><br />
+  <% if !address.detail.blank? %>
+    <%= address.detail %><br />
+  <% end %>
+  <%= address.city %>, <%= address.state %> <%= address.zip %>
+</div>

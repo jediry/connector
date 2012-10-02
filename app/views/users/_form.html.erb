@@ -12,7 +12,7 @@
   <% end %>
 
   <%= f.fields_for :person do |builder| %>
-    <%= render 'people/person_fields', :f => builder %>
+    <%= render 'shared/person_fields', :f => builder %>
   <% end %>
 
   <div class="field">
@@ -23,7 +23,7 @@
   <% if logged_in_admin? %>
     <div class="field">
       <%= f.check_box :active %>
-      <%= f.label :active %>
+      <%= f.label :active, 'Active user' %>
     </div>
     <div class="field">
       <%= f.check_box :admin %>

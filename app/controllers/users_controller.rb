@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   # GET /users/new.json
   def new
     @user = User.new
-    @user.build_person
+    @user.build_if_missing
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,26 +51,32 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    @user.build_if_missing
   end
 
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
 
     # If no password was provided, default to the username, but require the user to change on next login
-    if params[:user][:password].blank? and params[:user][:password].blank?
-      @user.password = params[:user][:username]
-      @user.password_confirmation = params[:user][:username]
-      @user.must_change_password = true
+    if !params[:user][:username].blank? &&
+        params[:user][:password].blank? &&
+        params[:user][:password_confirmation].blank?
+      params[:user][:password] = params[:user][:username]
+      params[:user][:password_confirmation] = params[:user][:username]
+      params[:user][:must_change_password] = true
     end
+
+    User.sanitize_attributes params[:user]
+
+    @user = User.new(params[:user])
 
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render json: @user, status: :created, location: @user }
       else
-        format.html { render action: "new" }
+        format.html { @user.build_if_missing; render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -86,12 +92,14 @@ class UsersController < ApplicationController
       params[:user][:admin] = false
     end
 
+    User.sanitize_attributes params[:user]
+
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render action: "edit" }
+        format.html { @user.build_if_missing; render action: "edit" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

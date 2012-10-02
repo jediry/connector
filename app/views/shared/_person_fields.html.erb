@@ -18,9 +18,9 @@
 </div>
 
 <div class="grouping_box">
-  <b>Address</b>
   <%= f.fields_for :address do |builder| %>
-    <%= render 'address_fields', :f => builder %>
-    <%= link_to_delete_field '[remove address]', builder, '.grouping_box', :class => :action %>
+    <b>Address</b>
+    <%= link_to_delete_field '[remove]', builder, '.grouping_box', :class => :action %>
+    <%= render 'shared/address_fields', :f => builder %>
   <% end %>
 </div>

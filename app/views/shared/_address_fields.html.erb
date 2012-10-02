@@ -1,0 +1,28 @@
+<table>
+  <tr>
+    <td class="field" colspan="3">
+      <%= f.label :street %><br />
+      <%= f.text_field :street, :size => 40 %>
+    </td>
+  </tr>
+  <tr>
+    <td class="field" colspan="3">
+      <%= f.label :detail, 'Details (Apartment #, Suite #, etc.)' %><br />
+      <%= f.text_field :detail, :size => 40 %>
+    </td>
+  </tr>
+  <tr>
+    <td class="field">
+      <%= f.label :city %><br />
+      <%= f.text_field :city, :size => 20 %>
+    </td>
+    <td class="field">
+      <%= f.label :state %><br />
+      <%= f.select :state, state_abbreviations, :include_blank => true, :index => nil %>
+    </td>
+    <td class="field">
+      <%= f.label :zip %><br />
+      <%= f.text_field :zip, :size => 5 %>
+    </td>
+  </tr>
+</table>
