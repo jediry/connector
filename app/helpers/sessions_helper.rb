@@ -33,12 +33,16 @@ module SessionsHelper
 
   def require_logged_in_user
     require_authenticated_user
-    redirect_to password_user_path(current_user), :notice => 'You must change your password first.' unless !current_user.must_change_password
+    if authenticated?
+      redirect_to password_user_path(current_user), :notice => 'You must change your password first.' unless !current_user.must_change_password
+    end
   end
 
   def require_logged_in_admin
     require_logged_in_user
-    redirect_to home_path, :notice => 'You must be an administrator to view this page.' unless logged_in_admin?
+    if logged_in?
+      redirect_to home_path, :notice => 'You must be an administrator to view this page.' unless logged_in_admin?
+    end
   end
 
   def current_user=(user)
