@@ -1,0 +1,30 @@
+<% provide(:title, "[#{@task_type.description}] Listing sub-task types") %>
+<p><%= link_to '[create new sub-task type]', new_task_type_sub_task_type_path(@task_type), :class => :action %></p>
+
+<% if !@task_type.sub_task_types.where(:active => true).empty? %>
+  <table class="index_table">
+    <tr>
+      <th>Description</th>
+      <th>Created when</th>
+      <th></th>
+      <% if logged_in_super_admin? %>
+        <th></th>
+      <% end %>
+    </tr>
+
+    <% @task_type.sub_task_types.each do |stt| %>
+      <tr>
+        <td><%= link_to stt.description, [@task_type, stt] %></td>
+        <td><%= stt.task_status.nil? ? 'Task starts' : "Task becomes '#{stt.task_status.description}'" %></td>
+        <td><%= link_to '[edit]', edit_task_type_sub_task_type_path(@task_type, stt), :class => :action %></td>
+        <% if logged_in_super_admin? %>
+          <td><%= link_to '[destroy]', task_type_sub_task_type_path(@task_type, stt), confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>No sub-task types are defined yet. Create one?</p>
+<% end %>
+
+<%= link_to '[back to task type]', task_type_path(@task_type), :class => :action %>

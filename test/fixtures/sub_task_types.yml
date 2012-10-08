@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  active: false
+  description: MyString
+  instructions: MyText
+  contact_within_days: 1
+
+two:
+  active: false
+  description: MyString
+  instructions: MyText
+  contact_within_days: 1

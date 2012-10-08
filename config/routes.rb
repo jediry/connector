@@ -12,7 +12,9 @@ Connector::Application.routes.draw do
   resources :tasks
   match '/tasks/:task_id/notes', :to => 'tasks#add_note', :via => :post
 
-  resources :task_types
+  resources :task_types do
+    resources :sub_task_types
+  end
 
   resources :users do
     member do

@@ -6,7 +6,16 @@
   <% if !tasks.empty? %>
     <ul>
       <% tasks.each do |t| %>
-        <li><%= link_to task_title(t), t %></li>
+        <li>
+          <%= link_to task_title(t), t %>
+          <% if !t.sub_tasks.empty? %>
+            <ul>
+              <% t.sub_tasks.each do |st| %>
+                <li><%= st.sub_task_type.description %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </li>
       <% end %>
     </ul>
   <% end %>

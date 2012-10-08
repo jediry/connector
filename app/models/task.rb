@@ -6,6 +6,7 @@ class Task < ActiveRecord::Base
   belongs_to :task_status
   has_one :finish, :through => :task_status
   has_one :group_type, :through => :task_type
+  has_many :sub_tasks
   has_many :notes
 
   before_validation :fix_up_references

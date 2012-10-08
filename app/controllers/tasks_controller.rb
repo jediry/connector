@@ -45,6 +45,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
+        create_sub_tasks @task, true # just_created
         format.html { redirect_to @task, notice: 'Task was successfully created.' }
         format.json { render json: @task, status: :created, location: @task }
       else
@@ -61,6 +62,7 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
+        create_sub_tasks @task, false # just_created
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { head :no_content }
       else
@@ -96,6 +98,7 @@ class TasksController < ApplicationController
     
     respond_to do |format|
       if @task.save
+        create_sub_tasks @task, false # just_created
         format.html { redirect_to @task, notice: 'Note successfully addded.' }
         format.json { head :no_content }
       else
@@ -105,4 +108,18 @@ class TasksController < ApplicationController
     end
   end
 
+private
+  def create_sub_tasks(task, just_created)
+    if just_created
+      sub_task_types = task.task_type.sub_task_types.where(:task_status_id => nil)
+      sub_task_types.each do |stt|
+        task.sub_tasks.create(:task_id => task.id, :sub_task_type_id => stt.id)
+      end
+    end
+
+    sub_task_types = task.task_type.sub_task_types.where(:task_status_id => task.task_status.id)
+    sub_task_types.each do |stt|
+      task.sub_tasks.create(:task_id => task.id, :sub_task_type_id => stt.id)
+    end
+  end
 end

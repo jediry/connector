@@ -1,0 +1,43 @@
+<%= form_for([@task_type, @sub_task_type]) do |f| %>
+  <% if @sub_task_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@sub_task_type.errors.count, "error") %> prohibited this sub_task_type from being saved:</h2>
+
+      <ul>
+      <% @sub_task_type.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :instructions %><br />
+    <%= f.text_area :instructions, :rows => 4, :cols => 80 %>
+  </div>
+  <div class="field">
+    <%= f.label :contact_within_days, 'Attempt contact within' %>
+    <%= f.select :contact_within_days, 1..30, :include_blank => true %>
+    <%= f.label :contact_within_days, 'days' %>
+  </div>
+  <div class="field">
+    <%= f.label :contact_attempts_to_make, 'Make at least' %>
+    <%= f.select :contact_attempts_to_make, 1..30, :include_blank => true %>
+    <%= f.label :contact_attempts_to_make, 'consecutive attempts to contact' %>
+  </div>
+  <div class="field">
+    <%= f.label :task_status, 'Create when parent task first enters the' %>
+    <%= f.collection_select :task_status_id, @task_type.task_statuses, :id, :description, :include_blank => true %>
+    <%= f.label :task_status, 'state (blank for parent task creation)' %>
+  </div>
+  <div class="field">
+    <%= f.check_box :active %> <%= f.label :active %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

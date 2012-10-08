@@ -9,12 +9,37 @@
 <div>
   Possible statuses of this task:
   <ul>
+    <% sub_task_types = @task_type.sub_task_types.where(:task_status_id => nil) %>
+    <% if !sub_task_types.empty? %>
+      <li><i>Task start</i>
+        <ul>
+          <% sub_task_types.each do |stt| %>
+            <li><%= stt.description %></li>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+
     <% @task_type.task_statuses.each do |ts| %>
-      <li><%= ts.description %></li>
+      <li>
+        <%= ts.description %>
+        <% if ts.start? %><b>[start]</b><% end %>
+        <% if ts.finish? %><b>[finish]</b><% end %>
+        
+        <% sub_task_types = @task_type.sub_task_types.where(:task_status_id => ts.id) %>
+        <% if !sub_task_types.empty? %>
+          <ul>
+            <% sub_task_types.each do |stt| %>
+              <li><%= stt.description %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 </div>
 
 
 <%= link_to '[edit this task type]', edit_task_type_path(@task_type), :class => :action %> |
+<%= link_to '[show sub-task types]', task_type_sub_task_types_path(@task_type), :class => :action %> |
 <%= link_to '[go back to task type list]', task_types_path, :class => :action %>

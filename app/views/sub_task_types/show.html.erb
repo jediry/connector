@@ -1,0 +1,32 @@
+<% provide(:title, "[#{@task_type.description}] #{@sub_task_type.description}") %>
+
+<p>
+  <b>Instructions:</b>
+  <%= format_plain_text @sub_task_type.instructions %>
+</p>
+
+<p>
+  <b>Created:</b>
+  <% if !@sub_task_type.task_status.nil? %>
+    when the parent task first enters the <i><%= @sub_task_type.task_status.description %></i> state
+  <% else %>
+    when the parent task is created
+  <% end %>
+</p>
+
+<% if !@sub_task_type.contact_within_days.nil? %>
+  <p><b>Contact within <%= pluralize(@sub_task_type.contact_within_days, 'day') %></b></p>
+<% end %>
+
+<% if !@sub_task_type.contact_attempts_to_make.nil? %>
+  <p><b>Make at least <%= pluralize(@sub_task_type.contact_attempts_to_make, 'attempt') %> to contact</b></p>
+<% end %>
+
+<p>
+  <b>Active:</b>
+  <%= @sub_task_type.active ? 'Yes' : 'No' %>
+</p>
+
+<%= link_to '[edit]', edit_task_type_sub_task_type_path(@task_type, @sub_task_type), :class => :action %> |
+<%= link_to '[go back to sub-task type list]', task_type_sub_task_types_path(@task_type), :class => :action %> |
+<%= link_to '[go back to task type]', task_type_path(@task_type), :class => :action %>

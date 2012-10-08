@@ -1,0 +1,6 @@
+<% provide(:title, "[#{@task_type.description}] Create new sub-task type") %>
+
+<%= render 'form' %>
+
+<%= link_to '[go back to sub-task type list]', task_type_sub_task_types_path(@task_type), :class => :action %> |
+<%= link_to '[go back to task type]', task_type_path(@task_type), :class => :action %>

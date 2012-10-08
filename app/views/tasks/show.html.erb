@@ -36,6 +36,20 @@
           <p><b>Next attempt should have been:</b> <span class="overdue"><%= format_date @task.attempt_next_contact_by %></span></p>
         <% end %>
         <p><%= pluralize(@task.consecutive_failed_contact_attempts, 'failed attempt') %> to contact</p>
+
+        <% if !@task.sub_tasks.empty? %>
+          <hr />
+
+          <p>
+            <b>Sub-tasks:</b>
+            <ul>
+              <% @task.sub_tasks.each do |st| %>
+                <li><%= st.sub_task_type.description %></li>
+              <% end %>
+            </ul>
+          </p>
+        <% end %>
+
       </div>
     </td>
   </tr>

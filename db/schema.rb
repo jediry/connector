@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121008042847) do
+ActiveRecord::Schema.define(:version => 20121008081737) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -70,6 +70,26 @@ ActiveRecord::Schema.define(:version => 20121008042847) do
     t.datetime "updated_at",                    :null => false
     t.boolean  "member",     :default => false, :null => false
     t.boolean  "active",     :default => true,  :null => false
+  end
+
+  create_table "sub_task_types", :force => true do |t|
+    t.boolean  "active",                   :default => true, :null => false
+    t.integer  "task_type_id",                               :null => false
+    t.integer  "task_status_id"
+    t.string   "description",                                :null => false
+    t.text     "instructions"
+    t.integer  "contact_within_days"
+    t.integer  "contact_attempts_to_make"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  create_table "sub_tasks", :force => true do |t|
+    t.integer  "sub_task_type_id", :null => false
+    t.integer  "task_id",          :null => false
+    t.datetime "completed_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "task_statuses", :force => true do |t|
