@@ -13,15 +13,24 @@
   <% else %>
     <table class="index_table">
       <tr>
+        <th>Started</th>
         <th>Task</th>
         <th>Assigned to</th>
         <th>Status</th>
+        <th>Last contact</th>
       </tr>
       <% tasks.each do |t| %>
-        <tr>
-          <td> <%= link_to t.task_type.description, t %> </td>
-          <td> <%= link_to t.user.name, t.user %> </td>
-          <td> <%= t.task_status.description %> </td>
+        <tr <%= raw( t.overdue? ? 'class="overdue"' : '' ) %>>
+          <td><%= format_date t.created_at %></td>
+          <td><%= link_to t.task_type.description, t %></td>
+          <td><%= link_to t.user.name, t.user %></td>
+          <td><%= t.task_status.description %></td>
+          <td>
+            <%= format_date t.last_contact_attempt_made_at %>
+            <% if t.overdue? %>
+              <span class="overdue">(overdue)</span>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </table>

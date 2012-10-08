@@ -66,6 +66,16 @@ module ApplicationHelper
     f.collection_select name, Group.all, :id, :name, options
   end
 
+  def map_url(address)
+    addr_string = u( "#{address.street}, #{address.city}, #{address.state}, #{address.zip}" )
+    "http://maps.google.com/maps?q=#{addr_string}"
+  end
+
+  # Formats a (possibly nil) date as a string like 'MM/DD/YYYY'
+  def format_date(date)
+    date.nil? ? 'never' : date.strftime('%m/%d/%Y')
+  end
+
   # Formats a 10-digit phone number like '(911) 123-4567'. Any additional digits are treated as the extension.
   def format_telephone(number)
     if (number.blank?)

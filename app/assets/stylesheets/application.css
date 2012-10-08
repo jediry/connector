@@ -62,6 +62,13 @@ footer {
 }
 
 
+.grouping_box > h2 {
+    margin: 0px;
+    padding: 0.25em;
+    color: #4B7399;
+}
+
+
 table.index_table {
     border-collapse: collapse;
 }
@@ -88,10 +95,21 @@ table.index_table tr:nth-child(even) td {
 }
 
 
+table.index_table tr.overdue td {
+    background-color: #FFDDDD;
+}
+
+
 td.page_column {
     vertical-align: top;
     padding-left: 1em;
     padding-right: 1em;
+}
+
+
+span.overdue {
+    font-weight: bold;
+    color: #FF0000;
 }
 
 

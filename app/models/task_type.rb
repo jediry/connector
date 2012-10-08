@@ -10,7 +10,12 @@ class TaskType < ActiveRecord::Base
 
   # Returns the collection of tasks of this type that are currently in-progress
   def in_progress_tasks
-    Task.joins("inner join task_statuses on tasks.task_status_id = task_statuses.id").where('tasks.task_type_id' => self.id, 'task_statuses.finish' => false)
+    Task.joins("inner join task_statuses on tasks.task_status_id = task_statuses.id").where('tasks.task_type_id' => self.id, 'task_statuses.finish' => false).order('created_at DESC')
+  end
+
+  # Returns the collection of all tasks of this type, including finished ones
+  def tasks
+    super.order('created_at DESC')
   end
 
 #  TODO: figure out why this doesn't validate as expected

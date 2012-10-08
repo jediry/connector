@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121002051943) do
+ActiveRecord::Schema.define(:version => 20121008042847) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -94,8 +94,11 @@ ActiveRecord::Schema.define(:version => 20121002051943) do
     t.integer  "person_id"
     t.integer  "user_id"
     t.integer  "task_status_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
+    t.datetime "last_contact_attempt_made_at"
+    t.datetime "attempt_next_contact_by"
+    t.integer  "consecutive_failed_contact_attempts", :default => 0, :null => false
   end
 
   add_index "tasks", ["person_id"], :name => "index_tasks_on_person_id"

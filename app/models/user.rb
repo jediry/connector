@@ -9,7 +9,11 @@ class User < ActiveRecord::Base
 
   # Returns the collection of tasks assigned to this user that are currently in-progress
   def in_progress_tasks
-    Task.joins('inner join task_statuses on tasks.task_status_id = task_statuses.id').where('tasks.user_id' => id, 'task_statuses.finish' => false)
+    Task.joins('inner join task_statuses on tasks.task_status_id = task_statuses.id').where('tasks.user_id' => id, 'task_statuses.finish' => false).order('created_at DESC')
+  end
+
+  def tasks
+    super.order('created_at DESC')
   end
 
   # Save usernames as all lower-case, to ensure that the uniqueness constraint

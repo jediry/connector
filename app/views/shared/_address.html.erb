@@ -1,7 +1,9 @@
 <div class="address">
-  <%= address.street %><br />
-  <% if !address.detail.blank? %>
-    <%= address.detail %><br />
-  <% end %>
-  <%= address.city %>, <%= address.state %> <%= address.zip %>
+  <a target="contact_address" href="<%= map_url address %>">
+    <%= address.street %><br />
+    <% if !address.detail.blank? %>
+      <%= address.detail %><br />
+    <% end %>
+    <%= address.city %>, <%= address.state %> <%= address.zip %>
+  </a>
 </div>

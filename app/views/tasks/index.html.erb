@@ -12,23 +12,34 @@
       <h2><%= tt.description %></h2>
       <table class="index_table">
         <tr>
+          <th>Started</th>
           <th>Person</th>
           <th>Assigned to</th>
           <th>Status</th>
-          <th></th>
-          <th></th>
+          <th>Last contact</th>
+          <% if logged_in_admin? %>
+            <th></th>
+          <% end %>
           <% if logged_in_super_admin? %>
             <th></th>
           <% end %>
         </tr>
 
         <% tasks.each do |t| %>
-          <tr>
+          <tr <%= raw( t.overdue? ? 'class="overdue"' : '' ) %>>
+            <td><%= format_date t.created_at %></td>
             <td><%= link_to t.person.name, t %></td>
             <td><%= link_to t.user.name, t.user %></td>
             <td><%= t.task_status.description %></td>
-            <td><%= link_to 'Show', t %></td>
-            <td><%= link_to '[edit]', edit_task_path(t), :class => :action %></td>
+            <td>
+              <%= format_date t.last_contact_attempt_made_at %>
+              <% if t.overdue? %>
+                <span class="overdue">(overdue)</span>
+              <% end %>
+            </td>
+            <% if logged_in_admin? %>
+              <td><%= link_to '[edit]', edit_task_path(t), :class => :action %></td>
+            <% end %>
             <% if logged_in_super_admin? %>
               <td><%= link_to '[destroy]', t, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
             <% end %>

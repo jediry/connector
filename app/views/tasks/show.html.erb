@@ -1,14 +1,45 @@
 <% provide(:title, "Task: #{task_title @task}") %>
 
-<p>
-  <b>Assigned to:</b>
-  <%= link_to @task.user.name, @task.user %>
-</p>
+<% person = @task.person %>
 
-<p>
-  <b>Task status:</b>
-  <%= @task.task_status.description %>
-</p>
+<table>
+  <tr>
+    <td class="page_column">
+      <div class="grouping_box">
+        <h2>Person</h2>
+        <p><b>Name:</b> <%= link_to person.name, person %></p>
+        <% if !person.phone.nil? %>
+          <p><b>Phone:</b> <%= format_telephone person.phone %></p>
+        <% end %>
+        <% if !person.email.nil? %>
+          <p><b>Email:</b> <%= mail_to person.email %></p>
+        <% end %>
+        <% if !person.address.nil? %>
+          <b>Address:</b><br />
+          <%= render 'shared/address', :address => person.address %>
+        <% end %>
+      </div>
+    </td>
+    <td class="page_column">
+      <div class="grouping_box">
+        <h2>Task
+          <% if @task.overdue? %>
+            <span class="overdue">(overdue)</span>
+          <% end %>
+        </h2>
+        <p><b>Status:</b> <%= @task.task_status.description %></p>
+        <p><b>Assigned to:</b> <%= link_to @task.user.name, @task.user %></p>
+        <p><b>Last contact attempt was:</b> <%= format_date @task.last_contact_attempt_made_at %></p>
+        <% if !@task.overdue? %>
+          <p><b>Next attempt should be:</b> <%= format_date @task.attempt_next_contact_by %></p>
+        <% else %>
+          <p><b>Next attempt should have been:</b> <span class="overdue"><%= format_date @task.attempt_next_contact_by %></span></p>
+        <% end %>
+        <p><%= pluralize(@task.consecutive_failed_contact_attempts, 'failed attempt') %> to contact</p>
+      </div>
+    </td>
+  </tr>
+</table>
 
 <p>
   <b>Notes:</b>
@@ -37,5 +68,7 @@
   <% end %>
 </p>
 
-<%= link_to '[edit this task]', edit_task_path(@task), :class => :action %> |
+<% if logged_in_admin? %>
+  <%= link_to '[edit this task]', edit_task_path(@task), :class => :action %> |
+<% end %>
 <%= link_to '[go back to task list]', tasks_path, :class => :action %>

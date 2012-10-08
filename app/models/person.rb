@@ -15,7 +15,11 @@ class Person < ActiveRecord::Base
 
   # Returns the collection of tasks related to this person that are currently in-progress
   def in_progress_tasks
-    Task.joins('inner join task_statuses on tasks.task_status_id = task_statuses.id').where('tasks.person_id' => id, 'task_statuses.finish' => false)
+    Task.joins('inner join task_statuses on tasks.task_status_id = task_statuses.id').where('tasks.person_id' => id, 'task_statuses.finish' => false).order('created_at DESC')
+  end
+
+  def tasks
+    super.order('created_at DESC')
   end
 
   # Returns the collection of groups that this person is not a member of

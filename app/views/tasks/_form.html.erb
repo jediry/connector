@@ -27,6 +27,18 @@
     <%= f.label :task_status, 'Status' %>
     <%= f.collection_select :task_status_id, f.object.task_type.task_statuses, :id, :description %>
   </div>
+  <div class="field">
+    <%= f.label :last_contact_attempt_made_at, 'Last contact attempt' %>
+    <%= f.date_select :last_contact_attempt_made_at, :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= f.label :attempt_next_contact_by, 'Next contact attempt by' %>
+    <%= f.date_select :attempt_next_contact_by, :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= f.label :consecutive_failed_contact_attempts, 'Consecutive failed contact attempts' %>
+    <%= f.select :consecutive_failed_contact_attempts, 0..10 %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

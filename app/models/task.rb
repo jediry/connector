@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-  attr_accessible :task_type_id, :person_id, :user_id, :task_status_id
+  attr_accessible :task_type_id, :person_id, :user_id, :task_status_id, :last_contact_attempt_made_at, :attempt_next_contact_by, :consecutive_failed_contact_attempts
   belongs_to :task_type
   belongs_to :person
   belongs_to :user
@@ -9,6 +9,11 @@ class Task < ActiveRecord::Base
   has_many :notes
 
   before_validation :fix_up_references
+
+  # Returns true if action was expected to have already happened on this task, but hasn't yet
+  def overdue?
+    !self.attempt_next_contact_by.nil? && self.attempt_next_contact_by < Time.current
+  end
 
 private
   # Because FormBuilder::select only updates ids and not object references, we need this before_validation callback

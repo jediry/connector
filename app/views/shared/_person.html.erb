@@ -12,6 +12,13 @@
   </p>
 <% end %>
 
+<% if !person.address.nil? %>
+  <p>
+    <b>Address:</b>
+    <%= render 'shared/address', :address => person.address %>
+  </p>
+<% end %>
+
 <p>
   <b>Church member:</b>
   <%= person.member ? 'Yes' : 'No' %>
@@ -21,10 +28,3 @@
   <b>Active:</b>
   <%= person.active ? 'Yes' : 'No' %>
 </p>
-
-<% if !person.address.nil? %>
-  <p>
-    <b>Address:</b>
-    <%= render 'shared/address', :address => person.address %>
-  </p>
-<% end %>
