@@ -16,6 +16,10 @@ class Task < ActiveRecord::Base
     !self.attempt_next_contact_by.nil? && self.attempt_next_contact_by < Time.current
   end
 
+  def finished?
+    self.task_status.finish
+  end
+
 private
   # Because FormBuilder::select only updates ids and not object references, we need this before_validation callback
   # to sync these two in order to ensure that we pass validation.

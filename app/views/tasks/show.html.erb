@@ -35,7 +35,7 @@
         <% else %>
           <p><b>Next attempt should have been:</b> <span class="overdue"><%= format_date @task.attempt_next_contact_by %></span></p>
         <% end %>
-        <p><%= pluralize(@task.consecutive_failed_contact_attempts, 'failed attempt') %> to contact</p>
+        <p><%= pluralize(@task.consecutive_failed_contact_attempts, 'consecutive failed attempt') %> to contact</p>
 
         <% if !@task.sub_tasks.empty? %>
           <hr />
@@ -53,24 +53,76 @@
       </div>
     </td>
   </tr>
+
+  <tr>
+    <td colspan="2">
+      <h2>Let's do something:</h2>
+      <% if !@task.finished? %>
+        <div class="grouping_box">
+          <%= link_to_show 'I was able to contact this person' do %>
+            <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+              How did it go?
+              <%= text_area_tag 'content', nil, :size => '80x6' %>
+              <%= hidden_field_tag :successful_contact, :value => 1 %>
+              <%= label_tag :attempt_next_contact_in_days, 'Make next attempt in' %>
+              <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14] ], :selected => 7) %>
+              <%= submit_tag 'Save' %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="grouping_box">
+          <%= link_to_show 'I tried to contact this person, but could not reach them' do %>
+            <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+              Leave a note
+              <%= text_area_tag :content, nil, :size => '80x6' %>
+              <%= hidden_field_tag :failed_contact, :value => 1 %>
+              <%= label_tag :attempt_next_contact_in_days, 'Make next attempt in' %>
+              <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14] ], :selected => 7) %>
+              <%= submit_tag 'Save' %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="grouping_box">
+          <%= link_to_show 'Someone else should continue follow-up with this person' do %>
+            <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+              Leave a note for the new 'owner' of this task
+              <%= text_area_tag :content, nil, :size => '80x6' %>
+              <br />Also reassign:
+              <%= select_tag :user_id, options_from_collection_for_select(User.where(:active => true), :id, :name), :include_blank => true %>
+              <%= submit_tag 'Save' %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="grouping_box">
+          <%= link_to_show 'This task is done' do %>
+            <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+              Leave a note explaining why
+              <%= text_area_tag :content, nil, :size => '80x6' %>
+              <br />And specify the new status:
+              <%= select_tag :task_status_id, options_from_collection_for_select(@task.task_type.task_statuses, :id, :description), :include_blank => true %>
+              <%= submit_tag 'Save' %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else # Finished %>
+        <div class="grouping_box">
+          <%= link_to_show 'This task needs to be reactivated' do %>
+            <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+              Leave a note explaining why
+              <%= text_area_tag :content, nil, :size => '80x6' %>
+              <br />And specify the new status:
+              <%= select_tag :task_status_id, options_from_collection_for_select(@task.task_type.task_statuses, :id, :description), :include_blank => true %>
+              <%= submit_tag 'Save' %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </td>
+  </tr>
 </table>
 
 <p>
   <b>Notes:</b>
-  <div>
-    <%= link_to_show '[add a note]' do %>
-      <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
-        <div style="padding: 0.5em">
-          <%= submit_tag 'Add note' %>
-          <br />Also change status:
-          <%= select_tag :task_status_id, options_from_collection_for_select(@task.task_type.task_statuses, :id, :description), :include_blank => true %>
-          <br />Also reassign:
-          <%= select_tag :user_id, options_from_collection_for_select(User.where(:active => true), :id, :name), :include_blank => true %>
-        </div>
-        <%= text_area_tag 'content', nil, :size => '80x6' %>
-      <% end %>
-    <% end %>
-  </div>
   <% @task.notes.order('created_at DESC').each do |n| %>
     <div class="note">
       <div class="note_header">
