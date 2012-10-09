@@ -12,6 +12,7 @@
         <table class="index_table">
           <tr>
             <th>Name</th>
+            <th>Region</th>
             <th></th>
             <% if logged_in_super_admin? %>
               <th></th>
@@ -21,6 +22,7 @@
           <% query.each gt do |group| %>
             <tr>
               <td><%= link_to group.name, group %></td>
+              <td><%= !group.region.nil? ? ( link_to group.region.name, group.region ) : '' %></td>
               <td><%= link_to '[edit]', edit_group_path(group), :class => :action %></td>
               <% if logged_in_super_admin? %>
                 <td><%= link_to '[destroy]', group, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>

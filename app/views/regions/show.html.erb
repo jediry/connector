@@ -1,0 +1,22 @@
+<% provide(:title, "Region: #{@region.name}") %>
+
+<div class="grouping_box">
+  <% groups = @region.groups.order(:description) %>
+  <b>This region contains <%= pluralize(groups.size, 'group') %></b>
+  <% if !groups.empty? %>
+    <table class="index_table">
+      <tr>
+        <th>Group</th>
+      </tr>
+      <% groups.each do |g| %>
+        <tr>
+          <td><%= link_to g.name, g %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>
+
+
+<%= link_to '[edit this region]', edit_region_path(@region), :class => :action %> |
+<%= link_to '[go back to regions list]', regions_path, :class => :action %>

@@ -5,6 +5,8 @@ Connector::Application.routes.draw do
   match '/groups/:group_id/members', :to => 'groups#add_member', :via => :post
   match '/groups/:group_id/members/:person_id', :to => 'groups#remove_member', :via => :delete
 
+  resources :regions
+
   resources :people
   match '/people/:person_id/groups', :to => 'people#add_to_group', :via => :post
   match '/people/:person_id/groups/:group_id', :to => 'people#remove_from_group', :via => :delete

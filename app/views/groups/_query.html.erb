@@ -8,6 +8,9 @@
     <% if !query.active.blank? %>
       <span class="term filter">Active: <%= query.active %></span>
     <% end %>
+    <% if !query.region.blank? %>
+      <span class="term filter">Region: <%= Region.find(query.region.to_i).name %></span>
+    <% end %>
     <% if !query.name_like.blank? %>
       <span class="term filter">Name like: "<%= query.name_like %>"</span>
     <% end %>
@@ -22,6 +25,10 @@
       <div class="field">
         <%= f.label :active %>
         <%= f.select :active, options_for_select(['yes', 'no'], query.active), :include_blank => true %>
+      </div>
+      <div class="field">
+        <%= f.label :region %>
+        <%= f.select :region, options_from_collection_for_select(Region.all, :id, :name, query.region), :include_blank => true %>
       </div>
       <div class="field">
         <%= f.label :name_like %>

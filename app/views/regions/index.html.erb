@@ -1,0 +1,24 @@
+<% provide(:title, 'Listing regions') %>
+<p><%= link_to '[create new region]', new_region_path, :class => :action %></p>
+
+<table class="index_table">
+  <tr>
+    <th>Name</th>
+    <th>Group count</th>
+    <th></th>
+    <% if logged_in_super_admin? %>
+      <th></th>
+    <% end %>
+  </tr>
+
+  <% Region.order(:name).each do |region| %>
+    <tr>
+      <td><%= link_to region.name, region %></td>
+      <td><%= region.groups.size %></td>
+      <td><%= link_to '[edit]', edit_region_path(region), :class => :action %></td>
+      <% if logged_in_super_admin? %>
+        <td><%= link_to '[destroy]', region, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

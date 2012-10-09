@@ -28,6 +28,10 @@
     <%= f.time_select :meeting_time, { :minute_step => 15, :ampm => true } %>
   </div>
   <div class="field">
+    <%= f.label :region_id %><br />
+    <%= f.collection_select :region_id, Region.all, :id, :name, :include_blank => true %>
+  </div>
+  <div class="field">
     <%= f.label :user, 'Contact' %><br />
     <%= f.collection_select :user_id, User.where({ :active => true }).all, :person_id, :name %>
   </div>

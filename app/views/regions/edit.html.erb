@@ -1,0 +1,6 @@
+<% provide(:title, "Edit region: #{@region.name}") %>
+
+<%= render 'form' %>
+
+<%= link_to '[cancel edit]', @region, :class => :action %> |
+<%= link_to '[go back to regions list]', regions_path, :class => :action %>

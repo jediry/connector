@@ -56,7 +56,7 @@
 
 <div class="grouping_box">
   <% groups = @person.groups.order(:description) %>
-  <b>This person is a member of <%= groups.size %> groups(s)</b>
+  <b>This person is a member of <%= pluralize(groups.size, 'group' %></b>
   <% if !groups.empty? %>
     <table class="index_table">
       <tr>

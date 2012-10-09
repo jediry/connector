@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121008081737) do
+ActiveRecord::Schema.define(:version => 20121009112229) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20121008081737) do
     t.text     "description"
     t.text     "restrictions"
     t.boolean  "active",        :default => true, :null => false
+    t.integer  "region_id"
   end
 
   create_table "groups_people", :id => false, :force => true do |t|
@@ -71,6 +72,14 @@ ActiveRecord::Schema.define(:version => 20121008081737) do
     t.boolean  "member",     :default => false, :null => false
     t.boolean  "active",     :default => true,  :null => false
   end
+
+  create_table "regions", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "regions", ["name"], :name => "index_regions_on_name", :unique => true
 
   create_table "sub_task_types", :force => true do |t|
     t.boolean  "active",                   :default => true, :null => false

@@ -6,9 +6,16 @@
   <%= @group.meeting_time.strftime('%l:%M %p') %>
 </p>
 
+<% if !@group.region.nil? %>
+  <p>
+    <b>Region:</b>
+    <%= link_to @group.region.name, @group.region %>
+  </p>
+<% end %>
+
 <p>
   <b>Contact:</b>
-  <%= @group.user.person.name %>
+  <%= link_to @group.user.name, @group.user %>
 </p>
 
 <p>
@@ -27,7 +34,7 @@
 
 <div class="grouping_box">
   <% members = @group.members %>
-  <b>This group has <%= members.size %> member(s)</b>
+  <b>This group has <%= pluralize(members.size, 'member') %></b>
   <% if !members.empty? %>
     <table class="index_table">
       <tr>
