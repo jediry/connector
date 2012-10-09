@@ -68,7 +68,7 @@
               </div>
               <div>
                 <%= label_tag :attempt_next_contact_in_days, 'Make next attempt in' %>
-                <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14] ], :selected => 7) %>
+                <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14], ['three weeks', 21], ['four weeks', 28] ], :selected => 7) %>
                 <%= submit_tag 'Save' %>
               </div>
             <% end %>
@@ -84,22 +84,28 @@
               </div>
               <div>
                 <%= label_tag :attempt_next_contact_in_days, 'Make next attempt in' %>
-                <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14] ], :selected => 7) %>
+                <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14], ['three weeks', 21], ['four weeks', 28] ], :selected => 7) %>
                 <%= submit_tag 'Save' %>
               </div>
             <% end %>
           <% end %>
         </div>
         <div class="action_box">
-          <%= link_to_show 'I should follow up with this person later' do %>
+          <%= link_to_show 'I should follow up with this person at another time' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <div>
-                Leave a note explaining why you're changing the 'next contact' date<br />
+                <% if !@task.attempt_next_contact_by.nil? %>
+                  The current 'next contact' date is <%= format_date @task.attempt_next_contact_by %>. If this is not
+                  ideal, you can change it. Please leave a note indicating why.<br />
+                <% else %>
+                  There is no 'next contact' date set for this person. Please choose the correct time-frame for
+                  following up with this person, and leave a note indicating why.<br />
+                <% end %>
                 <%= text_area_tag :content, nil, :size => '80x3' %>
               </div>
               <div>
                 <%= label_tag :attempt_next_contact_in_days, 'Make next attempt in' %>
-                <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14] ], :selected => 7) %>
+                <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14], ['three weeks', 21], ['four weeks', 28] ], :selected => 7) %>
                 <%= submit_tag 'Save' %>
               </div>
             <% end %>
