@@ -58,7 +58,7 @@
     <td colspan="2">
       <h2>Let's do something:</h2>
       <% if !@task.finished? %>
-        <div class="grouping_box">
+        <div class="action_box">
           <%= link_to_show 'I contacted this person' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <%= hidden_field_tag :successful_contact, :value => 1 %>
@@ -74,7 +74,7 @@
             <% end %>
           <% end %>
         </div>
-        <div class="grouping_box">
+        <div class="action_box">
           <%= link_to_show 'I tried to contact this person, but could not reach them' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <%= hidden_field_tag :failed_contact, :value => 1 %>
@@ -90,7 +90,22 @@
             <% end %>
           <% end %>
         </div>
-        <div class="grouping_box">
+        <div class="action_box">
+          <%= link_to_show 'I should follow up with this person later' do %>
+            <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
+              <div>
+                Leave a note explaining why you're changing the 'next contact' date<br />
+                <%= text_area_tag :content, nil, :size => '80x3' %>
+              </div>
+              <div>
+                <%= label_tag :attempt_next_contact_in_days, 'Make next attempt in' %>
+                <%= select_tag :attempt_next_contact_in_days, options_for_select([ ['one day', 1], ['two days', 2], ['one week', 7], ['two weeks', 14] ], :selected => 7) %>
+                <%= submit_tag 'Save' %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="action_box">
           <%= link_to_show 'I want to leave a note' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <div>
@@ -103,7 +118,7 @@
             <% end %>
           <% end %>
         </div>
-        <div class="grouping_box">
+        <div class="action_box">
           <%= link_to_show 'Someone else should continue follow-up with this person' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <div>
@@ -118,7 +133,7 @@
             <% end %>
           <% end %>
         </div>
-        <div class="grouping_box">
+        <div class="action_box">
           <%= link_to_show 'This task is done' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <div>
@@ -134,7 +149,7 @@
           <% end %>
         </div>
       <% else # Finished %>
-        <div class="grouping_box">
+        <div class="action_box">
           <%= link_to_show 'This task needs to be reactivated' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               Leave a note explaining why

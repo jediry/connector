@@ -59,6 +59,7 @@ footer {
     border: 1px dotted #4B7399;
     padding: 0.5em 1em 0.5em 1em;
     margin: 0.5em;
+    background-color: #DDDDDD;
 }
 
 
@@ -66,6 +67,14 @@ footer {
     margin: 0px;
     padding: 0.25em;
     color: #4B7399;
+}
+
+
+.action_box {
+    border: 1px dotted #4B7399;
+    padding: 0.5em 1em 0.5em 1em;
+    margin: 0.5em;
+    background-color: #FFFFAA;
 }
 
 
