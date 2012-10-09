@@ -1,34 +1,34 @@
 <% provide(:title, 'Listing groups') %>
 <%= link_to '[create new group]', new_group_path, :class => :action %>
 
+<% query = GroupsQuery.new(params[:query]) %>
+<%= render 'query', :query => query %>
+
 <table>
   <tr>
     <% GroupType.order(:description).all.each do |gt| %>
-      <% groups = gt.groups.order(:description) %>
-      <% if !groups.empty? %>
-        <td class="page_column">
-          <h2><%= gt.description %></h2>
-          <table class="index_table">
-            <tr>
-              <th>Name</th>
+      <td class="page_column">
+        <h2><%= gt.description %></h2>
+        <table class="index_table">
+          <tr>
+            <th>Name</th>
+            <th></th>
+            <% if logged_in_super_admin? %>
               <th></th>
+            <% end %>
+          </tr>
+
+          <% query.each gt do |group| %>
+            <tr>
+              <td><%= link_to group.name, group %></td>
+              <td><%= link_to '[edit]', edit_group_path(group), :class => :action %></td>
               <% if logged_in_super_admin? %>
-                <th></th>
+                <td><%= link_to '[destroy]', group, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
               <% end %>
             </tr>
-
-            <% groups.each do |group| %>
-              <tr>
-                <td><%= link_to group.name, group %></td>
-                <td><%= link_to '[edit]', edit_group_path(group), :class => :action %></td>
-                <% if logged_in_super_admin? %>
-                  <td><%= link_to '[destroy]', group, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
-                <% end %>
-              </tr>
-            <% end %>
-          </table>
-        </td>
-      <% end %>
+          <% end %>
+        </table>
+      </td>
     <% end %>
   </tr>
 </table>

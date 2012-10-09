@@ -1,0 +1,48 @@
+<div class="search_box">
+  <div class="term_dashboard" onclick="$('.search_form').toggle()">
+    <h2>Search, filter &amp; sort</h2>
+
+    <% if !query.order_by.blank? %>
+      <span class="term order">Sort by: <%= query.order_by %></span>
+    <% end %>
+    <% if !query.finished.blank? %>
+      <span class="term filter">Finished: <%= query.finished %></span>
+    <% end %>
+    <% if !query.overdue_days.blank? %>
+      <span class="term filter">Overdue by: <%= pluralize(query.overdue_days, 'day') %></span>
+    <% end %>
+    <% if !query.user_name_like.blank? %>
+      <span class="term filter">User name like: "<%= query.user_name_like %>"</span>
+    <% end %>
+    <% if !query.person_name_like.blank? %>
+      <span class="term filter">Person name like: "<%= query.person_name_like %>"</span>
+    <% end %>
+  </div>
+
+  <div class="search_form">
+    <%= form_for query, :as => :query, :url => tasks_path, :method => :get do |f| %>
+      <div class="field">
+        <%= f.label :order_by, 'Sort by' %>
+        <%= f.select :order_by, options_for_select(TasksQuery::sortable_fields, query.order_by) %>
+      </div>
+      <div class="field">
+        <%= f.label :finished %>
+        <%= f.select :finished, options_for_select(['yes', 'no'], query.finished), :include_blank => true %>
+      </div>
+      <div class="field">
+        <%= f.label :overdue_days, 'Overdue by' %>
+        <%= f.text_field :overdue_days, :size => 2 %>
+        <%= f.label :overdue_days, 'day(s)' %>
+      </div>
+      <div class="field">
+        <%= f.label :user_name_like %>
+        <%= f.text_field :user_name_like %>
+      </div>
+      <div class="field">
+        <%= f.label :person_name_like %>
+        <%= f.text_field :person_name_like %>
+      </div>
+      <%= f.submit 'Update' %>
+    <% end %>
+  </div>
+</div>

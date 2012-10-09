@@ -1,0 +1,40 @@
+<div class="search_box">
+  <div class="term_dashboard" onclick="$('.search_form').toggle()">
+    <h2>Search, filter &amp; sort</h2>
+
+    <% if !query.order_by.blank? %>
+      <span class="term order">Sort by: <%= query.order_by %></span>
+    <% end %>
+    <% if !query.active.blank? %>
+      <span class="term filter">Active: <%= query.active %></span>
+    <% end %>
+    <% if !query.member.blank? %>
+      <span class="term filter">Member: <%= query.member %></span>
+    <% end %>
+    <% if !query.name_like.blank? %>
+      <span class="term filter">Name like: "<%= query.name_like %>"</span>
+    <% end %>
+  </div>
+
+  <div class="search_form">
+    <%= form_for query, :as => :query, :url => people_path, :method => :get do |f| %>
+      <div class="field">
+        <%= f.label :order_by, 'Sort by' %>
+        <%= f.select :order_by, options_for_select(PeopleQuery::sortable_fields, query.order_by) %>
+      </div>
+      <div class="field">
+        <%= f.label :active %>
+        <%= f.select :active, options_for_select(['yes', 'no'], query.active), :include_blank => true %>
+      </div>
+      <div class="field">
+        <%= f.label :member %>
+        <%= f.select :member, options_for_select(['yes', 'no'], query.member), :include_blank => true %>
+      </div>
+      <div class="field">
+        <%= f.label :name_like %>
+        <%= f.text_field :name_like %>
+      </div>
+      <%= f.submit 'Update' %>
+    <% end %>
+  </div>
+</div>

@@ -1,6 +1,9 @@
 <% provide(:title, 'Listing users') %>
 <p><%= link_to '[create new user]', new_user_path, :class => :action %></p>
 
+<% query = UsersQuery.new(params[:query]) %>
+<%= render 'query', :query => query %>
+
 <table class="index_table">
   <tr>
     <th>Name</th>
@@ -12,7 +15,7 @@
     <% end %>
   </tr>
 
-  <% User.joins(:person).order('people.name').all.each do |user| %>
+  <% query.each do |user| %>
     <tr>
       <td><%= link_to user.person.name, user %></td>
       <td><%= user.username %></td>

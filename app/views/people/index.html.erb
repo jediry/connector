@@ -1,6 +1,9 @@
 <% provide(:title, 'Listing people') %>
 <p><%= link_to '[create new person]', new_person_path, :class => :action %></p>
 
+<% query = PeopleQuery.new(params[:query]) %>
+<%= render 'query', :query => query %>
+
 <table class="index_table">
   <tr>
     <th>Name</th>
@@ -13,7 +16,7 @@
     <% end %>
   </tr>
 
-  <% Person.order(:name).all.each do |person| %>
+  <% query.each do |person| %>
     <tr>
       <td><%= link_to person.name, person %></td>
       <td><%= format_telephone person.phone %></td>

@@ -1,51 +1,46 @@
 <% provide(:title, 'Listing tasks') %>
 
-<% show_finished = params[:show_finished] == 'true' %>
-<b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>
-<%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), tasks_path(:show_finished => !show_finished ), :class => :action %>
-<br />
+<% query = TasksQuery.new(params[:query]) %>
+<%= render 'query', :query => query %>
 
 <% TaskType.order(:created_at).all.each do |tt| %>
-  <% tasks = show_finished ? tt.tasks : tt.in_progress_tasks %>
-  <% if !tasks.empty? %>
-    <div class="grouping_box">
-      <h2><%= tt.description %></h2>
-      <table class="index_table">
-        <tr>
-          <th>Started</th>
-          <th>Person</th>
-          <th>Assigned to</th>
-          <th>Status</th>
-          <th>Last contact</th>
+  <div class="grouping_box">
+    <h2><%= tt.description %></h2>
+    <table class="index_table">
+      <tr>
+        <th>Started</th>
+        <th>Person</th>
+        <th>Assigned to</th>
+        <th>Status</th>
+        <th>Last contact</th>
+        <% if logged_in_admin? %>
+          <th></th>
+        <% end %>
+        <% if logged_in_super_admin? %>
+          <th></th>
+        <% end %>
+      </tr>
+
+      <% query.each tt do |t| %>
+        <tr <%= raw( t.overdue? ? 'class="overdue"' : '' ) %>>
+          <td><%= format_date t.created_at %></td>
+          <td><%= link_to t.person.name, t %></td>
+          <td><%= link_to t.user.name, t.user %></td>
+          <td><%= t.task_status.description %></td>
+          <td>
+            <%= format_date t.last_contact_attempt_made_at %>
+            <% if t.overdue? %>
+              <span class="overdue">(overdue)</span>
+            <% end %>
+          </td>
           <% if logged_in_admin? %>
-            <th></th>
+            <td><%= link_to '[edit]', edit_task_path(t), :class => :action %></td>
           <% end %>
           <% if logged_in_super_admin? %>
-            <th></th>
+            <td><%= link_to '[destroy]', t, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
           <% end %>
         </tr>
-
-        <% tasks.each do |t| %>
-          <tr <%= raw( t.overdue? ? 'class="overdue"' : '' ) %>>
-            <td><%= format_date t.created_at %></td>
-            <td><%= link_to t.person.name, t %></td>
-            <td><%= link_to t.user.name, t.user %></td>
-            <td><%= t.task_status.description %></td>
-            <td>
-              <%= format_date t.last_contact_attempt_made_at %>
-              <% if t.overdue? %>
-                <span class="overdue">(overdue)</span>
-              <% end %>
-            </td>
-            <% if logged_in_admin? %>
-              <td><%= link_to '[edit]', edit_task_path(t), :class => :action %></td>
-            <% end %>
-            <% if logged_in_super_admin? %>
-              <td><%= link_to '[destroy]', t, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      </table>
-    </div>
-  <% end %>
+      <% end %>
+    </table>
+  </div>
 <% end %>
