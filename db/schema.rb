@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121009112229) do
+ActiveRecord::Schema.define(:version => 20121010185233) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(:version => 20121009112229) do
 
   add_index "addresses", ["person_id"], :name => "index_addresses_on_person_id"
 
+  create_table "group_memberships", :force => true do |t|
+    t.integer "group_id",                     :null => false
+    t.integer "person_id",                    :null => false
+    t.string  "role"
+    t.boolean "leader",    :default => false, :null => false
+    t.boolean "host",      :default => false, :null => false
+    t.boolean "contact",   :default => false, :null => false
+  end
+
+  add_index "group_memberships", ["group_id", "person_id"], :name => "index_groups_people_on_group_id_and_person_id", :unique => true
+
   create_table "group_types", :force => true do |t|
     t.string   "description"
     t.datetime "created_at",  :null => false
@@ -34,7 +45,6 @@ ActiveRecord::Schema.define(:version => 20121009112229) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
-    t.integer  "user_id"
     t.integer  "group_type_id"
     t.integer  "meeting_day"
     t.time     "meeting_time"
@@ -45,13 +55,6 @@ ActiveRecord::Schema.define(:version => 20121009112229) do
     t.boolean  "active",        :default => true, :null => false
     t.integer  "region_id"
   end
-
-  create_table "groups_people", :id => false, :force => true do |t|
-    t.integer "group_id",  :null => false
-    t.integer "person_id", :null => false
-  end
-
-  add_index "groups_people", ["group_id", "person_id"], :name => "index_groups_people_on_group_id_and_person_id", :unique => true
 
   create_table "notes", :force => true do |t|
     t.integer  "task_id"

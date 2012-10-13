@@ -87,7 +87,7 @@ class GroupsController < ApplicationController
   # POST /groups/1/members.json
   def add_member
     @group = Group.find(params[:group_id])
-    @group.people << Person.find(params[:person_id])
+    @group.members << Person.find(params[:person_id])
 
     respond_to do |format|
       if @group.save
@@ -100,11 +100,27 @@ class GroupsController < ApplicationController
     end
   end
 
+  # PUT /groups/1/member/3
+  # PUT /groups/1/member/3.json
+  def update_member
+    @membership = GroupMembership.where(:group_id => params[:group_id]).where(:person_id => params[:person_id]).first
+
+    respond_to do |format|
+      if @membership.update_attributes(params[:group_membership])
+        format.html { redirect_to @membership.group, notice: 'Group membership successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @membership.group, notice: 'Error updating group membership.' }
+        format.json { render json: @membership.group.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /groups/1/member/3
   # DELETE /groups/1/member/3.json
   def remove_member
     @group = Group.find(params[:group_id])
-    @group.people.delete Person.find(params[:person_id])
+    @group.members.delete Person.find(params[:person_id])
 
     respond_to do |format|
       if @group.save

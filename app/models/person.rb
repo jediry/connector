@@ -1,7 +1,8 @@
 class Person < ActiveRecord::Base
   attr_accessible :name, :active, :email, :phone, :member, :address_attributes
   has_one :address, :dependent => :destroy
-  has_and_belongs_to_many :groups, :uniq => true
+  has_many :group_memberships
+  has_many :groups, :through => :group_memberships
   has_many :tasks
 
   accepts_nested_attributes_for :address, :allow_destroy => true
@@ -24,7 +25,7 @@ class Person < ActiveRecord::Base
 
   # Returns the collection of groups that this person is not a member of
   def non_member_groups
-    Group.joins("left outer join ( select * from groups_people where person_id = #{self.id} ) as gp on groups.id = gp.group_id").where('gp.person_id is NULL')
+    Group.joins("LEFT OUTER JOIN ( SELECT * FROM group_memberships WHERE person_id = #{self.id} ) AS gm ON groups.id = gm.group_id").where('gm.person_id IS NULL')
   end
 
   # Build objects for any missing associations

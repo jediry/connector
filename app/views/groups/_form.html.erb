@@ -32,10 +32,6 @@
     <%= f.collection_select :region_id, Region.all, :id, :name, :include_blank => true %>
   </div>
   <div class="field">
-    <%= f.label :user, 'Contact' %><br />
-    <%= f.collection_select :user_id, User.where({ :active => true }).all, :person_id, :name %>
-  </div>
-  <div class="field">
     <%= f.label :description %><br />
     <%= f.text_area :description, :rows => 10, :cols => 80 %>
   </div>

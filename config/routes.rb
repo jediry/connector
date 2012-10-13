@@ -3,6 +3,7 @@ Connector::Application.routes.draw do
 
   resources :groups
   match '/groups/:group_id/members', :to => 'groups#add_member', :via => :post
+  match '/groups/:group_id/members/:person_id', :to => 'groups#update_member', :via => :put
   match '/groups/:group_id/members/:person_id', :to => 'groups#remove_member', :via => :delete
 
   resources :regions

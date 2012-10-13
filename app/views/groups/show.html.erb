@@ -13,10 +13,47 @@
   </p>
 <% end %>
 
-<p>
-  <b>Contact:</b>
-  <%= link_to @group.user.name, @group.user %>
-</p>
+<% leaders = @group.leaders %>
+<% if !leaders.empty? %>
+  <table>
+    <tr>
+      <td class="column"><b><%= 'Leader'.pluralize(leaders.size) %>:</b></td>
+      <td class="column">
+        <% leaders.each do |m| %>
+          <%= link_to m.name, m %><br />
+        <% end %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<% contacts = @group.contacts %>
+<% if !contacts.empty? %>
+  <table>
+    <tr>
+      <td class="column"><b><%= 'Contact'.pluralize(contacts.size) %>:</b></td>
+      <td class="column">
+        <% contacts.each do |m| %>
+          <%= link_to m.name, m %><br />
+        <% end %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<% hosts = @group.hosts %>
+<% if !hosts.empty? %>
+  <table>
+    <tr>
+      <td class="column"><b><%= 'Host'.pluralize(hosts.size) %>:</b></td>
+      <td class="column">
+        <% hosts.each do |m| %>
+          <%= link_to m.name, m %><br />
+        <% end %>
+      </td>
+    </tr>
+  </table>
+<% end %>
 
 <p>
   <b>Description:</b><br />
@@ -33,24 +70,45 @@
 </p>
 
 <div class="grouping_box">
-  <% members = @group.members %>
-  <b>This group has <%= pluralize(members.size, 'member') %></b>
-  <% if !members.empty? %>
+  <% memberships = @group.group_memberships %>
+  <b>This group has <%= pluralize(memberships.size, 'member') %></b>
+  <% if !memberships.empty? %>
     <table class="index_table">
       <tr>
+        <th>Role</th>
+        <th></th>
         <th>Name</th>
         <th>Phone</th>
         <th>Email</th>
         <th>Church member?</th>
         <th></th>
       </tr>
-      <% members.each do |m| %>
+      <% memberships.each do |m| %>
         <tr>
-          <td><%= link_to m.name, m %></td>
-          <td><%= format_telephone m.phone %></td>
-          <td><%= mail_to m.email %></td>
-          <td><%= m.member ? 'Yes' : 'No' %></td>
-          <td><%= link_to '[remove]', "/groups/#{@group.id}/members/#{m.id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?', :class => :action %></td>
+          <td>
+            <%
+              roles = []
+              roles << 'Leader' if m.leader
+              roles << 'Contact' if m.contact
+              roles << 'Host' if m.host
+            %>
+            <%= roles.join('/') %>
+          </td>
+          <td>
+            <%= link_to_show '[change]', :hide_on_click => true do %>
+              <% form_for m, :url => "/groups/#{@group.id}/members/#{m.person.id}", :method => :put do |f| %>
+                <%= f.check_box :leader %> <%= f.label :leader %><br />
+                <%= f.check_box :contact %> <%= f.label :contact %><br />
+                <%= f.check_box :host %> <%= f.label :host %><br />
+                <%= f.submit 'Update' %>
+              <% end %>
+            <% end %>
+          </td>
+          <td><%= link_to m.person.name, m.person %></td>
+          <td><%= format_telephone m.person.phone %></td>
+          <td><%= mail_to m.person.email %></td>
+          <td><%= m.person.member ? 'Yes' : 'No' %></td>
+          <td><%= link_to '[remove]', "/groups/#{@group.id}/members/#{m.person_id}", :method => :delete, :confirm => 'Are you sure you want to remove this person from this group?', :class => :action %></td>
         </tr>
       <% end %>
     </table>

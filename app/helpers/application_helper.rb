@@ -39,9 +39,13 @@ module ApplicationHelper
     f.hidden_field(:_destroy) + link_to_function(name, "delete_field(this, \"#{escape_javascript(hide_selector)}\")", html_options)
   end
 
-  def link_to_show(name)
+  def link_to_show(name, options = {})
+    script = '$(this).next().show();'
+    if options[:hide_on_click]
+      script += '$(this).hide();'
+    end
     raw(
-      '<a style="display: block" class="toggle_link" onclick="$(this).next().show()">' + name + '</a>' +
+      '<a style="display: block" class="toggle_link" onclick="' + script + '">' + name + '</a>' +
       '<div style="display: none">' + yield + '</div>'
     )
   end

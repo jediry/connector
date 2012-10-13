@@ -116,6 +116,12 @@ td.page_column {
 }
 
 
+td.column {
+    vertical-align: top;
+    padding-left: 0em;
+}
+
+
 span.overdue {
     font-weight: bold;
     color: #FF0000;
