@@ -1,6 +1,5 @@
 class Group < ActiveRecord::Base
-  attr_accessible :name, :user_id, :group_type_id, :region_id, :active, :description, :restrictions, :meeting_day, :meeting_time
-  belongs_to :user
+  attr_accessible :name, :group_type_id, :region_id, :active, :description, :restrictions, :meeting_day, :meeting_time
   belongs_to :group_type
   belongs_to :region
   has_many :group_memberships
@@ -14,7 +13,7 @@ class Group < ActiveRecord::Base
 
   before_validation :fix_up_references
 
-  validates :name, :user, :group_type, :meeting_day, :meeting_time, :presence => true
+  validates :name, :group_type, :meeting_day, :meeting_time, :presence => true
 
   # Returns the collection of people who are not members of this group
   def non_members
@@ -25,9 +24,6 @@ private
   # Because FormBuilder::select only updates ids and not object references, we need this before_validation callback
   # to sync these two in order to ensure that we pass validation.
   def fix_up_references
-    if self.user.nil? and !self.user_id.nil?
-      self.user = User.find(self.user_id)
-    end
     if self.group_type.nil? and !self.group_type_id.nil?
       self.group_type = GroupType.find(self.group_type_id)
     end
