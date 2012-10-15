@@ -1,6 +1,7 @@
 class Person < ActiveRecord::Base
   attr_accessible :name, :active, :email, :phone, :member, :address_attributes
   has_one :address, :dependent => :destroy
+  has_one :user
   has_many :group_memberships
   has_many :groups, :through => :group_memberships
   has_many :tasks
@@ -33,6 +34,20 @@ class Person < ActiveRecord::Base
     if self.address.nil?
       self.build_address
     end
+  end
+
+  def create_user
+    username = self.name.gsub(/\s+/, '.')
+    attr = {
+      :active => true,
+      :username => username,
+      :password => username,
+      :password_confirmation => username,
+      :must_change_password => true,
+      :admin => false
+    }
+    user = build_user attr
+    user.save
   end
 
   # Static method to sanitze an attributes hash destined for update_attributes

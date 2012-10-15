@@ -28,7 +28,7 @@
           <% end %>
         </h2>
         <p><b>Status:</b> <%= @task.task_status.description %></p>
-        <p><b>Assigned to:</b> <%= link_to @task.user.name, @task.user %></p>
+        <p><b>Assigned to:</b> <%= link_to @task.group.name, @task.group %> <%= link_to @task.user.name, @task.user %></p>
         <p><b>Last contact attempt was:</b> <%= format_date @task.last_contact_attempt_made_at %></p>
         <% if !@task.overdue? %>
           <p><b>Next attempt should be:</b> <%= format_date @task.attempt_next_contact_by %></p>
@@ -133,8 +133,8 @@
                 <%= text_area_tag :content, nil, :size => '80x6' %>
               </div>
               <div>
-                Also reassign:
-                <%= select_tag :user_id, options_from_collection_for_select(User.where(:active => true), :id, :name), :include_blank => true %>
+                Reassign to:
+                <%= group_contact_select :contact_id, nil, @task.group_type, :include_blank => true %>
                 <%= submit_tag 'Save' %>
               </div>
             <% end %>

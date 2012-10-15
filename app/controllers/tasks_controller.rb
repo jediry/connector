@@ -95,8 +95,8 @@ class TasksController < ApplicationController
     if !params[:task_status_id].blank?
       @task.task_status = @task.task_type.task_statuses.find(params[:task_status_id])
     end
-    if !params[:user_id].blank?
-      @task.user = User.find(params[:user_id])
+    if !params[:contact_id].blank?
+      @task.contact = GroupMembership.find(params[:contact_id])
     end
 
     # Update our 'last attempt' date as well as the 'failed attempts' count

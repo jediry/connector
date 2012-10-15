@@ -70,6 +70,15 @@ module ApplicationHelper
     f.collection_select name, Group.all, :id, :name, options
   end
 
+  def group_contact_select(name, f, group_type, options = {})
+    contacts = GroupMembership.contacts(group_type)
+    if !f.nil?
+      f.collection_select name, contacts, :id, :string_for_select, options
+    else
+      select_tag name, options_from_collection_for_select(contacts, :id, :string_for_select), options
+    end
+  end
+
   def map_url(address)
     addr_string = u( "#{address.street}, #{address.city}, #{address.state}, #{address.zip}" )
     "http://maps.google.com/maps?q=#{addr_string}"

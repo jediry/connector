@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121010185233) do
+ActiveRecord::Schema.define(:version => 20121015185033) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -119,12 +119,13 @@ ActiveRecord::Schema.define(:version => 20121010185233) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.string   "title_template"
+    t.integer  "group_type_id"
   end
 
   create_table "tasks", :force => true do |t|
     t.integer  "task_type_id"
     t.integer  "person_id"
-    t.integer  "user_id"
+    t.integer  "contact_id"
     t.integer  "task_status_id"
     t.datetime "created_at",                                         :null => false
     t.datetime "updated_at",                                         :null => false
@@ -133,10 +134,10 @@ ActiveRecord::Schema.define(:version => 20121010185233) do
     t.integer  "consecutive_failed_contact_attempts", :default => 0, :null => false
   end
 
+  add_index "tasks", ["contact_id"], :name => "index_tasks_on_user_id"
   add_index "tasks", ["person_id"], :name => "index_tasks_on_person_id"
   add_index "tasks", ["task_status_id"], :name => "index_tasks_on_task_status_id"
   add_index "tasks", ["task_type_id"], :name => "index_tasks_on_task_type_id"
-  add_index "tasks", ["user_id"], :name => "index_tasks_on_user_id"
 
   create_table "users", :force => true do |t|
     t.integer  "person_id"

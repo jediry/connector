@@ -4,6 +4,10 @@
   <b>Example title:</b> "<%= @task_type.title_template.sub(/<name>/, 'John Smith') %>"
 </div>
 
+<div>
+  <b>Relevant to:</b> <%= @task_type.group_type.description %>
+</div>
+
 <br />
 
 <div>

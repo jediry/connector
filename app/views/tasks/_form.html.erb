@@ -20,8 +20,8 @@
     <%= f.hidden_field :person_id %>
   </div>
   <div class="field">
-    <%= f.label :user_id, 'Assigned to' %>
-    <%= active_user_select :user_id, f %>
+    <%= f.label :contact_id, 'Assigned to' %>
+    <%= group_contact_select :contact_id, f, @task.group_type, :include_blank => true %>
   </div>
   <div class="field">
     <%= f.label :task_status, 'Status' %>

@@ -4,12 +4,13 @@ class User < ActiveRecord::Base
   attr_accessible :username, :password, :password_confirmation, :must_change_password, :active, :admin, :person_attributes
   belongs_to :person, :dependent => :destroy
   has_many :groups
-  has_many :tasks
+  has_many :group_memberships, :foreign_key => :person_id
+  has_many :tasks, :through => :group_memberships
   has_secure_password
 
   # Returns the collection of tasks assigned to this user that are currently in-progress
   def in_progress_tasks
-    Task.joins('inner join task_statuses on tasks.task_status_id = task_statuses.id').where('tasks.user_id' => id, 'task_statuses.finish' => false).order('created_at DESC')
+    Task.joins('INNER JOIN group_memberships ON tasks.contact_id = group_memberships.id').joins('INNER JOIN task_statuses ON tasks.task_status_id = task_statuses.id').where('group_memberships.person_id' => id, 'task_statuses.finish' => false).order('created_at DESC')
   end
 
   def tasks

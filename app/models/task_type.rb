@@ -1,13 +1,16 @@
 class TaskType < ActiveRecord::Base
-  attr_accessible :description, :title_template, :task_statuses_attributes
+  attr_accessible :description, :title_template, :task_statuses_attributes, :group_type_id
   has_many :task_statuses, :dependent => :destroy
   has_many :sub_task_types, :dependent => :destroy
   has_many :tasks
+  belongs_to :group_type
 
   accepts_nested_attributes_for :task_statuses, :reject_if => lambda { |a| a[:description].blank? }, :allow_destroy => true
 
   validates :description, :presence => true
   validates :title_template, :presence => true
+
+  before_validation :fix_up_references
 
   # Returns the collection of tasks of this type that are currently in-progress
   def in_progress_tasks
@@ -23,6 +26,14 @@ class TaskType < ActiveRecord::Base
 #  validate :must_have_exactly_one_start_and_at_least_one_finish_status
 
 private
+  # Because FormBuilder::select only updates ids and not object references, we need this before_validation callback
+  # to sync these two in order to ensure that we pass validation.
+  def fix_up_references
+    if self.group_type.nil? and !self.group_type_id.nil?
+      self.group_type = GroupMembership.find(self.group_type_id)
+    end
+  end
+
 #  def must_have_exactly_one_start_and_at_least_one_finish_status
 #    start_count = 0
 #    finish_count = 0

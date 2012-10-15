@@ -21,6 +21,11 @@
     <%= f.text_field :title_template%>
   </div>
 
+  <div class="field">
+    <%= f.label :group_type_id, 'What kind of group this applies to:' %>
+    <%= f.collection_select :group_type_id, GroupType.all, :id, :description, :include_blank => true %>
+  </div>
+
   <div class="grouping_box">
     <p>Possible statuses that this type of task may have:</p>
     <%= f.fields_for :task_statuses do |builder| %>

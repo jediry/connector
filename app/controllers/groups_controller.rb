@@ -105,12 +105,32 @@ class GroupsController < ApplicationController
   def update_member
     @membership = GroupMembership.where(:group_id => params[:group_id]).where(:person_id => params[:person_id]).first
 
+    success = 'Group membership successfully updated.'
+    error = nil
+    if !params[:group_membership][:leader].blank? || !params[:group_membership][:contact].blank?
+      person = Person.find(params[:person_id])
+      if !person.nil? && person.user.nil?
+        if person.create_user
+          success = "Created user account for #{person.name}"
+        else
+          error = "Error creating user account for #{person.name}"
+        end
+      end
+    end
+
+    if error.nil?
+      if !@membership.update_attributes(params[:group_membership])
+        success = nil
+        error = 'Error updating group membership.'
+      end
+    end
+
     respond_to do |format|
-      if @membership.update_attributes(params[:group_membership])
-        format.html { redirect_to @membership.group, notice: 'Group membership successfully updated.' }
+      if error.nil?
+        format.html { redirect_to @membership.group, notice: success }
         format.json { head :no_content }
       else
-        format.html { redirect_to @membership.group, notice: 'Error updating group membership.' }
+        format.html { redirect_to @membership.group, notice: error }
         format.json { render json: @membership.group.errors, status: :unprocessable_entity }
       end
     end
