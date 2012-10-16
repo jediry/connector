@@ -8,6 +8,8 @@ Connector::Application.routes.draw do
 
   resources :regions
 
+  resources :messages, :except => :show
+
   resources :people
   match '/people/:person_id/groups', :to => 'people#add_to_group', :via => :post
   match '/people/:person_id/groups/:group_id', :to => 'people#remove_from_group', :via => :delete

@@ -119,8 +119,9 @@ module ApplicationHelper
     text = text.gsub /$/, '<br />'
 
     # Now replace URLs
-    text = text.gsub /\b(http:\/\/[A-Za-z0-9_.%\/-]+)/, '<a href="\1">\1</a>'
-    text = text.gsub /(?<!http:\/\/)\b(www\.[A-Za-z0-9_.%\/-]+)/, '<a href="http://\1">\1</a>'
+    text = text.gsub /\b(http:\/\/[A-Za-z0-9_.%\/?#=-]+)/, '<a href="\1">\1</a>'
+    text = text.gsub /\b(https:\/\/[A-Za-z0-9_.%\/?#=-]+)/, '<a href="\1">\1</a>'
+    text = text.gsub /(?<!:\/\/)\b(www\.[A-Za-z0-9_.%\/?#=-]+)/, '<a href="http://\1">\1</a>'
     text = text.gsub /([0-9a-z][0-9a-z.-]+[0-9a-z]@[0-9a-z][0-9a-z.-]+[0-9a-z])/xi, '<a href="mailto:\1">\1</a>'
 
     raw( text )
