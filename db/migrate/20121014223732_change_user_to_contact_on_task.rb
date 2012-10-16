@@ -6,7 +6,11 @@ class ChangeUserToContactOnTask < ActiveRecord::Migration
     Task.reset_column_information
     Task.all.each do |t|
       gm = GroupMembership.find_by_person_id(t.contact_id)
-      t.update_attributes({:contact_id => gm.id})
+      if !gm.nil?
+        t.update_attributes({:contact_id => gm.id})
+      else
+        say "Failed to translate person_id #{t.contact_id} into GroupMembership :("
+      end
     end
   end
 
