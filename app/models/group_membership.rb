@@ -11,7 +11,8 @@ class GroupMembership < ActiveRecord::Base
   def self.contacts(group_type)
     GroupMembership.where(:contact => true).
         joins('INNER JOIN users ON group_memberships.person_id = users.person_id').where('users.active = \'t\'').
-        joins('INNER JOIN groups ON group_memberships.group_id = groups.id').where('groups.group_type_id = ?', group_type.id)
+        joins('INNER JOIN groups ON group_memberships.group_id = groups.id').where('groups.group_type_id = ?', group_type.id).
+        order('groups.region_id').order('groups.name')
   end
 
   def string_for_select
