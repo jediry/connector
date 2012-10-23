@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
 
   # Set this to true to enable sending email
   def self.email_enabled
-    false
+    true
   end
 end
