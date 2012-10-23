@@ -113,7 +113,7 @@ class GroupsController < ApplicationController
         if person.create_user
           success = "Created user account for #{person.name}"
         else
-          error = "Error creating user account for #{person.name}"
+          error = person.user.errors.first[1]
         end
       end
     end
@@ -127,10 +127,10 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if error.nil?
-        format.html { redirect_to @membership.group, notice: success }
+        format.html { flash[:notice] = success; redirect_to @membership.group }
         format.json { head :no_content }
       else
-        format.html { redirect_to @membership.group, notice: error }
+        format.html { flash[:error] = error; redirect_to @membership.group }
         format.json { render json: @membership.group.errors, status: :unprocessable_entity }
       end
     end

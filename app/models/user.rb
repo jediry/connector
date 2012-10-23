@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   self.primary_key = :person_id
 
-  attr_accessible :username, :password, :password_confirmation, :must_change_password, :active, :admin, :person_attributes
+  attr_accessible :username, :password, :password_confirmation, :must_change_password, :welcome_email_sent, :active, :admin, :person_attributes
   belongs_to :person, :dependent => :destroy
   has_many :groups
   has_many :group_memberships, :foreign_key => :person_id
@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
 
   validates :person, :presence => true
   validates :username, :presence => true, :uniqueness => { :case_sensitive => false }
+  validate :has_email
 #  validates :password, :length => { :minimum => 4 }
 #  validates :password_confirmation, :presence => true
 
@@ -61,4 +62,9 @@ private
     end
   end
 
+  def has_email
+    if self.person.email.blank?
+      errors.add(:email, 'In order to make this person a user, the email address must not be blank.')
+    end
+  end
 end

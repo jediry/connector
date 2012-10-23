@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121016023126) do
+ActiveRecord::Schema.define(:version => 20121023071825) do
 
   create_table "addresses", :force => true do |t|
     t.string   "street"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(:version => 20121016023126) do
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
     t.boolean  "must_change_password", :default => false, :null => false
+    t.boolean  "welcome_email_sent",   :default => false, :null => false
   end
 
   add_index "users", ["person_id"], :name => "index_users_on_person_id"

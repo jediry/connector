@@ -15,6 +15,14 @@ class UserMailer < ActionMailer::Base
          :subject => '[MHDT Connect] Person (re)assigned to you')
   end
 
+  def welcome_email(user, password)
+    @user = user
+    @password = password
+    recipients = make_recipients_list([@user.person])
+    mail(:to => recipients,
+         :subject => '[MHDT Connect] Your new user account')
+  end
+
 private
   def make_recipients_list(people)
     recipients = []

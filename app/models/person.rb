@@ -38,16 +38,23 @@ class Person < ActiveRecord::Base
 
   def create_user
     username = self.name.gsub(/\s+/, '.')
+    password = generate_password
     attr = {
       :active => true,
       :username => username,
-      :password => username,
-      :password_confirmation => username,
+      :password => password,
+      :password_confirmation => password,
       :must_change_password => true,
+      :welcome_email_sent => true,
       :admin => false
     }
     user = build_user attr
-    user.save
+    if user.save && !user.person.email.blank?
+      UserMailer.welcome_email(user, password).deliver
+      return true
+    else
+      return false
+    end
   end
 
   # Static method to sanitze an attributes hash destined for update_attributes
@@ -67,5 +74,12 @@ private
     if !self.phone.nil?
       self.phone = self.phone.gsub(/[^0-9]/, '')
     end
+  end
+
+  def generate_password(length=8)
+    chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ23456789'
+    password = ''
+    length.times { |i| password << chars[rand(chars.length)] }
+    password
   end
 end
