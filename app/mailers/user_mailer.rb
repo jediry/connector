@@ -1,7 +1,7 @@
 class UserMailer < ActionMailer::Base
   helper :application
 
-  default from: "MHDT Connect <#{webmaster_email}>"
+  default from: "MHDT Connect <#{ApplicationHelper::webmaster_email}>"
 
   def handoff_email(task, assigner, old_assignee)
     @task = task
@@ -18,7 +18,7 @@ class UserMailer < ActionMailer::Base
   def welcome_email(user, password)
     @user = user
     @password = password
-    @webmaster_email = webmaster_email
+    @webmaster_email = ApplicationHelper::webmaster_email
     recipients = make_recipients_list([@user.person])
     mail(:to => recipients,
          :subject => '[MHDT Connect] Your new user account')
