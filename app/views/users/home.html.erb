@@ -2,7 +2,7 @@
 
 <div class="grouping_box">
   <h2>Things I need to do today</h2>
-  <% tasks = current_user.tasks %>
+  <% tasks = current_user.in_progress_tasks %>
   <% if !tasks.empty? %>
     <ul>
       <% tasks.each do |t| %>
