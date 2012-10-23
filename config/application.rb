@@ -57,5 +57,7 @@ module Connector
     config.assets.version = '1.0'
 
     config.action_mailer.default_url_options = { :host => 'mhdt-connect.herokuapp.com' }
+
+    config.time_zone = 'Pacific Time (US & Canada)'
   end
 end

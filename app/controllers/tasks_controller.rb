@@ -26,6 +26,7 @@ class TasksController < ApplicationController
     @task.person = Person.find(params[:person_id])
     @task.task_type = TaskType.find(params[:task_type_id])
     @task.task_status = @task.task_type.task_statuses.where(:start => true).first
+    @task.attempt_next_contact_by = Time.current.beginning_of_day.advance(:days => 1)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -105,7 +106,7 @@ class TasksController < ApplicationController
 
     # Update our 'last attempt' date as well as the 'failed attempts' count
     if !params[:successful_contact].blank? || !params[:failed_contact].blank?
-      @task.last_contact_attempt_made_at = Time.current
+      @task.last_contact_attempt_made_at = Time.zone.now
       if !params[:successful_contact].blank?
         @task.consecutive_failed_contact_attempts = 0
       else
@@ -115,9 +116,9 @@ class TasksController < ApplicationController
 
     # Update the 'attempt next' date
     if !params[:attempt_next_contact_by].blank?
-      @task.attempt_next_contact_by = Time.parse(params[:attempt_next_contact_by])
+      @task.attempt_next_contact_by = Time.zone.parse(params[:attempt_next_contact_by])
     elsif !params[:attempt_next_contact_in_days].blank?
-      @task.attempt_next_contact_by = Time.current.advance(:days => params[:attempt_next_contact_in_days].to_i)
+      @task.attempt_next_contact_by = Time.zone.now.end_of_day.advance(:days => params[:attempt_next_contact_in_days].to_i)
     end
 
     respond_to do |format|

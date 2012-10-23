@@ -86,7 +86,7 @@ module ApplicationHelper
 
   # Formats a (possibly nil) date as a string like 'MM/DD/YYYY'
   def format_date(date)
-    date.nil? ? 'never' : date.in_time_zone('Pacific Time (US & Canada)').strftime('%m/%d/%Y')
+    date.nil? ? 'never' : date.in_time_zone(Time.zone).strftime('%m/%d/%Y')
   end
 
   # Formats a 10-digit phone number like '(911) 123-4567'. Any additional digits are treated as the extension.

@@ -31,7 +31,7 @@
         <p><b>Assigned to:</b> <%= link_to @task.group.name, @task.group %> <%= link_to @task.user.name, @task.user %></p>
         <p><b>Last contact attempt was:</b> <%= format_date @task.last_contact_attempt_made_at %></p>
         <% if !@task.overdue? %>
-          <p><b>Next attempt should be:</b> <%= format_date @task.attempt_next_contact_by %></p>
+          <p><b>Next attempt should be on or before:</b> <%= format_date @task.attempt_next_contact_by %></p>
         <% else %>
           <p><b>Next attempt should have been:</b> <span class="overdue"><%= format_date @task.attempt_next_contact_by %></span></p>
         <% end %>

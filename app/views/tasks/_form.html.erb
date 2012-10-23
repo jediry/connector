@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :contact_id, 'Assigned to' %>
-    <%= group_contact_select :contact_id, f, @task.group_type, :include_blank => true %>
+    <%= group_contact_select :contact_id, f, @task.group_type %>
   </div>
   <div class="field">
     <%= f.label :task_status, 'Status' %>
@@ -30,10 +30,14 @@
   <div class="field">
     <%= f.label :last_contact_attempt_made_at, 'Last contact attempt' %>
     <%= f.date_select :last_contact_attempt_made_at, :include_blank => true %>
+    <%= f.hidden_field 'last_contact_attempt_made_at(4i)', :value => 23 %>
+    <%= f.hidden_field 'last_contact_attempt_made_at(5i)', :value => 59 %>
   </div>
   <div class="field">
-    <%= f.label :attempt_next_contact_by, 'Next contact attempt by' %>
-    <%= f.date_select :attempt_next_contact_by, :include_blank => true %>
+    <%= f.label :attempt_next_contact_by, 'Next contact attempt on or before' %>
+    <%= f.date_select :attempt_next_contact_by %>
+    <%= f.hidden_field 'attempt_next_contact_by(4i)', :value => 23 %>
+    <%= f.hidden_field 'attempt_next_contact_by(5i)', :value => 59 %>
   </div>
   <div class="field">
     <%= f.label :consecutive_failed_contact_attempts, 'Consecutive failed contact attempts' %>

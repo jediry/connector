@@ -10,6 +10,7 @@ class Task < ActiveRecord::Base
   has_many :sub_tasks
   has_many :notes
 
+  validates :contact, :presence => true
   before_validation :fix_up_references
 
   # Returns true if action was expected to have already happened on this task, but hasn't yet
