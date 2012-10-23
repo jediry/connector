@@ -16,7 +16,7 @@
       <b>Password:</b> <pre><%= @password %></pre><br />
     </p>
     <p>
-      If you have any difficulty logging in, please contact <%= mail_to 'The Webmaster', webmaster_email %>.
+      If you have any difficulty logging in, please contact <%= mail_to @webmaster_email, 'The Webmaster' %>.
     </p>
     <p>
       Sincerely,<br />

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
 
   # Set this to true to enable sending email
-  def email_enabled
+  def self.email_enabled
     false
   end
 end

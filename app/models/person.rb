@@ -45,12 +45,12 @@ class Person < ActiveRecord::Base
       :password => password,
       :password_confirmation => password,
       :must_change_password => true,
-      :welcome_email_sent => email_enabled,
+      :welcome_email_sent => ApplicationController::email_enabled,
       :admin => false
     }
     user = build_user attr
     if user.save
-      UserMailer.welcome_email(user, password).deliver if email_enabled
+      UserMailer.welcome_email(user, password).deliver if ApplicationController::email_enabled
       return true
     else
       return false
