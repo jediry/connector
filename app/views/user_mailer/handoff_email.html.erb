@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <% if @old_assignee.nil? %>
+      <h1><%= @assigner.name %> just assigned the task <%= link_to task_title(@task), task_url(@task) %> to <%= @new_assignee.name %></h1>
+    <% else %>
+      <h1><%= @assigner.name %> just reassigned the task <%= link_to task_title(@task), task_url(@task) %> to <%= @new_assignee.name %></h1>
+    <% end %>
+    <p>
+      <%= @new_assignee.name %>, you will now see "<%= task_title @task %>" appear in the task list on your
+      <%= link_to 'home page', home_url %> when you log in to the MHDT Connect app. Or, you can jump straight to this
+      task <%= link_to 'here', task_url(@task) %>.
+    </p>
+    <p>Please follow up promptly with this person.</p>
+  </body>
+</html>
+

@@ -46,6 +46,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.save
         create_sub_tasks @task, nil # previous_status
+        send_assignment_email @task, nil # old_contact
         format.html { redirect_to @task, notice: 'Task was successfully created.' }
         format.json { render json: @task, status: :created, location: @task }
       else
@@ -60,10 +61,12 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     old_status = @task.task_status
+    old_contact = @task.contact.person
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
         create_sub_tasks @task, old_status
+        send_assignment_email @task, old_contact
         format.html { redirect_to @task, notice: 'Task was successfully updated.' }
         format.json { head :no_content }
       else
@@ -90,6 +93,7 @@ class TasksController < ApplicationController
   def add_note
     @task = Task.find(params[:task_id])
     old_status = @task.task_status
+    old_contact = @task.contact.person
 
     @task.notes.create({:content => params[:content], :user => current_user })
     if !params[:task_status_id].blank?
@@ -119,6 +123,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       if @task.save
         create_sub_tasks @task, old_status
+        send_assignment_email @task, old_contact
         format.html { redirect_to @task, notice: 'Note successfully addded.' }
         format.json { head :no_content }
       else
@@ -129,6 +134,13 @@ class TasksController < ApplicationController
   end
 
 private
+  def send_assignment_email(task, old_contact)
+    # Don't bother sending an email if we're reassigning to the same person, even if the group is changing
+    if old_contact.nil? || old_contact != task.contact.person
+      UserMailer.handoff_email(task, current_user.person, old_contact).deliver
+    end
+  end
+
   def create_sub_tasks(task, previous_status)
     # If we're just now creating this task, create any on-creation sub-tasks
     if previous_status.nil?

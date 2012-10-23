@@ -137,6 +137,10 @@ module ApplicationHelper
     end
   end
 
+  def webmaster_email
+    "MHDT Connect Webmaster <ryan.saundersMHDT@gmail.com>"
+  end
+
   def state_abbreviations
     STATE_ABBREVIATIONS
   end
