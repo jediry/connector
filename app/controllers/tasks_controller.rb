@@ -137,7 +137,7 @@ class TasksController < ApplicationController
 private
   def send_assignment_email(task, old_contact)
     # Don't bother sending an email if we're reassigning to the same person, even if the group is changing
-    if email_enabled && ( old_contact.nil? || old_contact != task.contact.person )
+    if ApplicationController::email_enabled && ( old_contact.nil? || old_contact != task.contact.person )
       UserMailer.handoff_email(task, current_user.person, old_contact).deliver
     end
   end
