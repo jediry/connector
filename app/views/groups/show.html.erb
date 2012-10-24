@@ -1,10 +1,16 @@
 <% provide(:title, "Group: #{@group.name}") %>
 
-<p>
-  <b>Meeting:</b>
-  <%= day_of_week_name @group.meeting_day %>s,
-  <%= @group.meeting_time.strftime('%l:%M %p') %>
-</p>
+<% if !@group.meeting_day.nil? || !@group.meeting_time.nil? %>
+  <p>
+    <b>Meeting:</b>
+    <% if !@group.meeting_day.nil? %>
+      <%= day_of_week_name @group.meeting_day %>s
+    <% end %>
+    <% if !@group.meeting_time.nil? %>
+      <%= @group.meeting_time.strftime('%l:%M %p') %>
+    <% end %>
+  </p>
+<% end %>
 
 <% if !@group.region.nil? %>
   <p>

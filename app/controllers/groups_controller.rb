@@ -42,6 +42,7 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.json
   def create
+    Group.sanitize_attributes params[:group]
     @group = Group.new(params[:group])
 
     respond_to do |format|
@@ -58,6 +59,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1
   # PUT /groups/1.json
   def update
+    Group.sanitize_attributes params[:group]
     @group = Group.find(params[:id])
 
     respond_to do |format|

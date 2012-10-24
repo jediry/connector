@@ -13,11 +13,23 @@ class Group < ActiveRecord::Base
 
   before_validation :fix_up_references
 
-  validates :name, :group_type, :meeting_day, :meeting_time, :presence => true
+  validates :name, :group_type, :presence => true
 
   # Returns the collection of people who are not members of this group
   def non_members
     Person.joins("LEFT OUTER JOIN ( SELECT * FROM group_memberships WHERE group_id = #{self.id} ) AS gm ON people.id = gm.person_id").where('gm.group_id IS NULL').order(:name)
+  end
+
+  def self.sanitize_attributes(group_attributes)
+    # We only care about the time portion of the meeting time, and this can be nil. However, the hidden fields injected
+    # by the time_select cause ActiveRecord to still try to reconstitue this as a datetime, so we need to kill them too.
+    if group_attributes['meeting_time(4i)'].blank? || group_attributes['meeting_time(5i)'].blank?
+      group_attributes['meeting_time(1i)'] = ''
+      group_attributes['meeting_time(2i)'] = ''
+      group_attributes['meeting_time(3i)'] = ''
+      group_attributes['meeting_time(4i)'] = ''
+      group_attributes['meeting_time(5i)'] = ''
+    end
   end
 
 private

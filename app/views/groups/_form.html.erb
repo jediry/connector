@@ -25,7 +25,7 @@
   </div>
   <div class="field">
     <%= f.label :meeting_time %><br />
-    <%= f.time_select :meeting_time, { :minute_step => 15, :ampm => true } %>
+    <%= f.time_select :meeting_time, { :minute_step => 15, :ampm => true, :include_blank => true } %>
   </div>
   <div class="field">
     <%= f.label :region_id %><br />
