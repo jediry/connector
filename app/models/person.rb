@@ -50,7 +50,7 @@ class Person < ActiveRecord::Base
     }
     user = build_user attr
     if user.save
-      UserMailer.welcome_email(user, password).deliver if ApplicationController::email_enabled
+      send_welcome_email user, password if ApplicationController::email_enabled
       return true
     else
       return false
@@ -69,7 +69,25 @@ class Person < ActiveRecord::Base
     return false # Don't delete me!
   end
 
+  def reset_password_and_send_mail
+    password = generate_password
+    attr = {
+      :password => password,
+      :password_confirmation => password,
+      :must_change_password => true,
+      :welcome_email_sent => false,
+    }
+    if self.user.update_attributes attr
+      send_welcome_email self.user, password
+    end
+  end
+
 private
+  def send_welcome_email(user, password)
+    UserMailer.welcome_email(user, password).deliver
+    user.update_attributes :welcome_email_sent => true
+  end
+
   def strip_phone_nonnumeric
     if !self.phone.nil?
       self.phone = self.phone.gsub(/[^0-9]/, '')
