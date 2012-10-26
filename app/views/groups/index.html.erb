@@ -6,23 +6,39 @@
 
 <table>
   <tr>
-    <% GroupType.order(:description).all.each do |gt| %>
+    <%
+      GroupType.order(:description).all.each do |gt|
+
+        # unique CSS class names so that we can selected columns if they're empty without having to iterate the
+        # list of records twice.
+        region_class = "group_region_#{gt.id}"
+        day_class = "group_day_#{gt.id}"
+        has_region = false
+        has_day = false
+    %>
+
       <td class="page_column">
         <h2><%= gt.description %></h2>
         <table class="index_table">
           <tr>
             <th>Name</th>
-            <th>Region</th>
+            <th class="<%= region_class %>">Region</th>
+            <th class="<%= day_class %>">Meeting day</th>
             <th></th>
             <% if logged_in_super_admin? %>
               <th></th>
             <% end %>
           </tr>
 
-          <% query.each gt do |group| %>
+          <%
+            query.each gt do |group|
+              has_region = true if !group.region.nil?
+              has_day    = true if !group.meeting_day.nil?
+          %>
             <tr>
               <td><%= link_to group.name, group %></td>
-              <td><%= !group.region.nil? ? ( link_to group.region.name, group.region ) : '' %></td>
+              <td class="<%= region_class %>"><%= !group.region.nil? ? ( link_to group.region.name, group.region ) : '' %></td>
+              <td class="<%= day_class %>"><%= !group.meeting_day.nil? ? day_of_week_name(group.meeting_day) : '' %></td>
               <td><%= link_to '[edit]', edit_group_path(group), :class => :action %></td>
               <% if logged_in_super_admin? %>
                 <td><%= link_to '[destroy]', group, confirm: 'This will obliterate this record from the database...are you sure?', :method => :delete, :class => :action %></td>
@@ -30,6 +46,14 @@
             </tr>
           <% end %>
         </table>
+        <style>
+          <% if !has_region %>
+            .<%= region_class %> { display: none }
+          <% end %>
+          <% if !has_day %>
+            .<%= day_class %> { display: none }
+          <% end %>
+        </style>
       </td>
     <% end %>
   </tr>

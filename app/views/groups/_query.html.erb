@@ -11,6 +11,9 @@
     <% if !query.region.blank? %>
       <span class="term filter">Region: <%= Region.find(query.region.to_i).name %></span>
     <% end %>
+    <% if !query.meeting_day.blank? %>
+      <span class="term filter">Meeting day: <%= day_of_week_name(query.meeting_day.to_i) %></span>
+    <% end %>
     <% if !query.name_like.blank? %>
       <span class="term filter">Name like: "<%= query.name_like %>"</span>
     <% end %>
@@ -29,6 +32,10 @@
       <div class="field">
         <%= f.label :region %>
         <%= f.select :region, options_from_collection_for_select(Region.all, :id, :name, query.region), :include_blank => true %>
+      </div>
+      <div class="field">
+        <%= f.label :meeting_day %>
+        <%= f.select :meeting_day, day_of_week_names, :include_blank => true %>
       </div>
       <div class="field">
         <%= f.label :name_like %>
