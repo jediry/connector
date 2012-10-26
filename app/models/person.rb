@@ -38,19 +38,18 @@ class Person < ActiveRecord::Base
 
   def create_user
     username = self.name.gsub(/\s+/, '.')
-    password = generate_password
     attr = {
       :active => true,
       :username => username,
-      :password => password,
-      :password_confirmation => password,
+      :password => username,
+      :password_confirmation => username,
       :must_change_password => true,
-      :welcome_email_sent => ApplicationController::email_enabled,
+      :welcome_email_sent => false,
       :admin => false
     }
     user = build_user attr
     if user.save
-      send_welcome_email user, password if ApplicationController::email_enabled
+      reset_password_and_send_mail if ApplicationController::email_enabled
       return true
     else
       return false
@@ -70,15 +69,18 @@ class Person < ActiveRecord::Base
   end
 
   def reset_password_and_send_mail
-    password = generate_password
-    attr = {
-      :password => password,
-      :password_confirmation => password,
-      :must_change_password => true,
-      :welcome_email_sent => false,
-    }
-    if self.user.update_attributes attr
-      send_welcome_email self.user, password
+    if !self.email.blank?
+      password = generate_password
+      attr = {
+        :password => password,
+        :password_confirmation => password,
+        :remember_token => nil,
+        :must_change_password => true,
+        :welcome_email_sent => false,
+      }
+      if self.user.update_attributes attr
+        send_welcome_email self.user, password
+      end
     end
   end
 
