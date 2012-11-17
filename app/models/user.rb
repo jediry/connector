@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   self.primary_key = :person_id
 
-  attr_accessible :username, :password, :password_confirmation, :must_change_password, :welcome_email_sent, :active, :admin, :person_attributes
+  attr_accessible :username, :password, :password_confirmation, :must_change_password, :welcome_email_sent, :remember_token, :active, :admin, :person_attributes
   belongs_to :person, :dependent => :destroy
   has_many :groups
   has_many :group_memberships, :foreign_key => :person_id

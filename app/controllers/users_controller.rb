@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :require_authenticated_user, :only => [:update, :password]
-  before_filter :require_logged_in_admin, :only => [:new, :create, :destroy]
+  before_filter :require_logged_in_admin, :only => [:new, :create, :destroy, :reset_password]
   before_filter :require_current_user_or_admin, :only => [:update, :password]
   before_filter :require_logged_in_user, :except => [:update, :password]
 
@@ -14,6 +14,21 @@ class UsersController < ApplicationController
   # GET /users/1/password
   def password
     @user = User.find(params[:id])
+  end
+
+  # POST /users/1/reset_password
+  def reset_password
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      if @user.person.reset_password_and_send_mail
+        format.html { redirect_to @user, notice: 'Password successfully reset.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @user }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /users

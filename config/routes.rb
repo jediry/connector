@@ -24,6 +24,7 @@ Connector::Application.routes.draw do
   resources :users do
     member do
       get 'password'
+      post 'reset_password'
     end
   end
   match '/home', :to => 'users#home'
