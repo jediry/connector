@@ -109,15 +109,21 @@ class PeopleController < ApplicationController
   # DELETE /people/1/group/3.json
   def remove_from_group
     @person = Person.find(params[:person_id])
-    @person.groups.delete Group.find(params[:group_id])
+    @group = Group.find(params[:group_id])
+    @membership = @group.group_memberships.find_by_person_id(params[:person_id])
+    if !@membership.tasks.empty?
+      redirect_to @person, notice: 'Error: this person has tasks assigned to him/her for this group, so cannot be removed fromt he group. Reassign his/her tasks to another group contact before removing.'
+    else
+      @group.members.delete @person
 
-    respond_to do |format|
-      if @person.save
-        format.html { redirect_to @person, notice: 'Person successfully removed from group.' }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to @person, notice: 'Error removing person from group.' }
-        format.json { render json: @person.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @group.save
+          format.html { redirect_to @person, notice: 'Person successfully removed from group.' }
+          format.json { head :no_content }
+        else
+          format.html { redirect_to @person, notice: 'Error removing person from group.' }
+          format.json { render json: @group.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
