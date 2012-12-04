@@ -28,7 +28,14 @@
           <% end %>
         </h2>
         <p><b>Status:</b> <%= @task.task_status.description %></p>
-        <p><b>Assigned to:</b> <%= link_to @task.group.name, @task.group %> <%= link_to @task.user.name, @task.user %></p>
+        <p>
+          <b>Assigned to:</b>
+          <% if @task.contact.nil? %>
+            <div style="color: red">none</div>
+          <% else %>
+            <%= link_to @task.group.name, @task.group %> <%= link_to @task.user.name, @task.user %>
+          <% end %>
+        </p>
         <p><b>Last contact attempt was:</b> <%= format_date @task.last_contact_attempt_made_at %></p>
         <% if !@task.overdue? %>
           <p><b>Next attempt should be on or before:</b> <%= format_date @task.attempt_next_contact_by %></p>
