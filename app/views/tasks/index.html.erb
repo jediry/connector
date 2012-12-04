@@ -25,7 +25,13 @@
         <tr <%= raw( t.overdue? ? 'class="overdue"' : '' ) %>>
           <td><%= format_date t.created_at %></td>
           <td><%= link_to t.person.name, t %></td>
-          <td><%= link_to t.user.name, t.user %></td>
+          <td>
+            <% if t.contact.nil? %>
+              <div style="color: red">none</div>
+            <% else %>
+              <%= link_to t.user.name, t.user %>
+            <% end %>
+          </td>
           <td><%= t.task_status.description %></td>
           <td>
             <%= format_date t.last_contact_attempt_made_at %>
