@@ -62,7 +62,10 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
     old_status = @task.task_status
-    old_contact = @task.contact.person
+    old_contact = nil
+    if @task.contact
+      old_contact = @task.contact.person
+    end
 
     respond_to do |format|
       if @task.update_attributes(params[:task])
@@ -94,7 +97,10 @@ class TasksController < ApplicationController
   def add_note
     @task = Task.find(params[:task_id])
     old_status = @task.task_status
-    old_contact = @task.contact.person
+    old_contact = nil
+    if @task.contact
+      old_contact = @task.contact.person
+    end
 
     @task.notes.create({:content => params[:content], :user => current_user })
     if !params[:task_status_id].blank?
@@ -137,7 +143,7 @@ class TasksController < ApplicationController
 private
   def send_assignment_email(task, old_contact)
     # Don't bother sending an email if we're reassigning to the same person, even if the group is changing
-    if ApplicationController::email_enabled && ( old_contact.nil? || old_contact != task.contact.person )
+    if ApplicationController::email_enabled && !task.contact.nil? && ( old_contact.nil? || old_contact != task.contact.person )
       UserMailer.handoff_email(task, current_user.person, old_contact).deliver
     end
   end
