@@ -17,6 +17,11 @@ class TaskType < ActiveRecord::Base
     Task.joins("inner join task_statuses on tasks.task_status_id = task_statuses.id").where('tasks.task_type_id' => self.id, 'task_statuses.finish' => false).order('created_at DESC')
   end
 
+  # Returns the collection of tasks of this type that are currently in-progress and are overdue
+  def overdue_tasks
+    tasks = Task.joins("inner join task_statuses on tasks.task_status_id = task_statuses.id").where('tasks.task_type_id' => self.id, 'task_statuses.finish' => false).where('tasks.attempt_next_contact_by IS NULL OR tasks.attempt_next_contact_by < ?', Time.current).order('created_at DESC')
+  end
+
   # Returns the collection of all tasks of this type, including finished ones
   def tasks
     super.order('created_at DESC')

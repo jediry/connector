@@ -29,6 +29,7 @@ Connector::Application.routes.draw do
   end
   match '/home', :to => 'users#home'
   match '/todo', :to => 'users#todo', :via => :get
+  match '/email_overdue', :to => 'tasks#overdue', :via => :get
 
   resources :sessions, :only => [ :new, :create, :destroy ]
   match '/login', :to => 'sessions#new'

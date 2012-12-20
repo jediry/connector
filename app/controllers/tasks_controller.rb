@@ -140,6 +140,10 @@ class TasksController < ApplicationController
     end
   end
 
+  # GET /email_overdue
+  def overdue
+  end
+
 private
   def send_assignment_email(task, old_contact)
     # Don't bother sending an email if we're reassigning to the same person, even if the group is changing

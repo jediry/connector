@@ -14,7 +14,7 @@
           <div class="admin"><%= link_to_unless_current 'Define regions', regions_path %></div>
           <div class="admin"><%= link_to_unless_current 'Edit homepage', messages_path %></div>
           <div class="admin"><%= link_to_unless_current 'Site to-do list', todo_path %></div>
-          <!--div class="admin"><%= link_to_unless_current 'Email group leaders', '#' %></div-->
+          <div class="admin"><%= link_to_unless_current 'Email overdue task owners', email_overdue_path %></div>
         <% end %>
         <hr />
         <div><%= link_to_unless_current 'My profile', current_user %></div>

@@ -1,0 +1,25 @@
+<% provide(:title, "Overdue task contacts") %>
+
+<% TaskType.order(:created_at).all.each do |tt| %>
+  <div class="grouping_box">
+    <h2><%= tt.description %></h2>
+    <% overdue = tt.overdue_tasks %>
+    <% if !overdue.empty?
+      contacts = []
+      overdue.each do |t|
+        contacts << t.contact.person
+      end
+      contacts.uniq!
+    %>
+      <div>
+        <% contacts.each do |c| %>
+          <%= link_to c.name, c.user %> &lt;<%= mail_to c.email %>&gt;,<br />
+        <% end %>
+      </div>
+    <% else %>
+      <div>Yay! No overdue tasks!</div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= link_to '[go back to task list]', tasks_path, :class => :action %>
