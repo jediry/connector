@@ -45,7 +45,9 @@ class Person < ActiveRecord::Base
       :password_confirmation => username,
       :must_change_password => true,
       :welcome_email_sent => false,
-      :admin => false
+      :admin => false,
+      :id => self.id,
+      :person_id => self.id
     }
     user = build_user attr
     if user.save
