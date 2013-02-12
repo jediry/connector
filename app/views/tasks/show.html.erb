@@ -119,7 +119,7 @@
             <% end %>
           <% end %>
         </div>
-        <div class="action_box">
+        <div class="action_box" style="display:none">
           <%= link_to_show 'I want to leave a note' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <div>
