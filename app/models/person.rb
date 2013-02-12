@@ -14,6 +14,7 @@ class Person < ActiveRecord::Base
   validates :name, :presence => true
   validates :phone, :length => { :minimum => 10 }, :unless => 'phone.blank?'
   validates :email, :format => { :with => /^[0-9a-z_][0-9a-z_.-]+[0-9a-z_]@[0-9a-z_][0-9a-z_.-]+[0-9a-z]$/xi }, :unless => 'email.blank?'
+  validates :email, :uniqueness => true, :allow_nil => true
 
   # Returns the collection of tasks related to this person that are currently in-progress
   def in_progress_tasks
