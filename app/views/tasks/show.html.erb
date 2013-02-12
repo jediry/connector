@@ -66,10 +66,11 @@
       <h2>Let's do something:</h2>
       <% if !@task.finished? %>
         <div class="action_box">
-          <%= link_to_show 'I contacted this person' do %>
+          <%= link_to_show 'I contacted this person (phone, email reply)' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <%= hidden_field_tag :successful_contact, :value => 1 %>
               <div>
+                <p>This is the option to use when you speak to the person on the phone or in-person, or when s/he responds to an email/text that you sent previously.</p>
                 How did it go?<br />
                 <%= text_area_tag 'content', nil, :size => '80x6' %>
               </div>
@@ -82,11 +83,12 @@
           <% end %>
         </div>
         <div class="action_box">
-          <%= link_to_show 'I tried to contact this person, but could not reach them' do %>
+          <%= link_to_show 'I tried to contact this person, but did not reach them (email, voice mail)' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <%= hidden_field_tag :failed_contact, :value => 1 %>
               <div>
-                Leave a note<br />
+                <p>This is the option to use when sending an email/text or leaving a voice mail, and it has not been returned yet. If the person replies to your message, create a follow-up "I contacted this person" note.</p>
+                How did you try to contact them?<br />
                 <%= text_area_tag :content, nil, :size => '80x6' %>
               </div>
               <div>
@@ -119,10 +121,13 @@
             <% end %>
           <% end %>
         </div>
-        <div class="action_box" style="display:none">
-          <%= link_to_show 'I want to leave a note' do %>
+        <div class="action_box">
+          <%= link_to_show 'I have <b>not</b> made a new attempt to contact them, but I remembered something I want to leave an additional note about' do %>
             <% form_tag "/tasks/#{@task.id}/notes", :method => :post do %>
               <div>
+                <p><b>Do not</b> use this option to report the results of contacting a person...it will not update the 'last contact attempt' date, and
+                it will appear as though you did not try to contact the person. Use one of the first two options for leaving a note associated
+                with a contact attempt.</p>
                 Leave a note<br />
                 <%= text_area_tag :content, nil, :size => '80x6' %>
               </div>
