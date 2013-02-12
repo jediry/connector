@@ -26,7 +26,7 @@ class Person < ActiveRecord::Base
 
   # Returns the collection of groups that this person is not a member of
   def non_member_groups
-    Group.joins("LEFT OUTER JOIN ( SELECT * FROM group_memberships WHERE person_id = #{self.id} ) AS gm ON groups.id = gm.group_id").where('gm.person_id IS NULL')
+    Group.joins("LEFT OUTER JOIN ( SELECT * FROM group_memberships WHERE person_id = #{self.id} ) AS gm ON groups.id = gm.group_id").where('gm.person_id IS NULL').where('groups.active')
   end
 
   # Build objects for any missing associations

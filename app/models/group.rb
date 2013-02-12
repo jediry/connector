@@ -17,7 +17,7 @@ class Group < ActiveRecord::Base
 
   # Returns the collection of people who are not members of this group
   def non_members
-    Person.joins("LEFT OUTER JOIN ( SELECT * FROM group_memberships WHERE group_id = #{self.id} ) AS gm ON people.id = gm.person_id").where('gm.group_id IS NULL').order(:name)
+    Person.joins("LEFT OUTER JOIN ( SELECT * FROM group_memberships WHERE group_id = #{self.id} ) AS gm ON people.id = gm.person_id").where('gm.group_id IS NULL').where('people.active').order(:name)
   end
 
   def self.sanitize_attributes(group_attributes)
