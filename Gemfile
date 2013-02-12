@@ -2,12 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.11'
 
-group :development do
-  gem 'sqlite3'
-end
-group :production do
-  gem 'pg'
-end
+# PostgreSQL database
+gem 'pg'
 
 # Foreign-key support for ActiveRecord
 gem 'foreigner'
@@ -24,7 +20,7 @@ group :assets do
   gem 'nifty-generators'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platform => :ruby
+  gem 'therubyracer', :platform => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
