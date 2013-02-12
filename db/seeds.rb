@@ -5,3 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+# Create a default administrative user, so we can log in to begin with
+User.create :username => 'admin',
+            :password => 'admin',
+            :password_confirmation => 'admin',
+            :active => true,
+            :admin => true,
+            :person_attributes => {
+                :name => 'Administrator',
+                :email => 'admin@example.com',
+                :phone => '(000) 000-0000'
+            }

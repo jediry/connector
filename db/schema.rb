@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(:version => 20121023071825) do
   create_table "group_memberships", :force => true do |t|
     t.integer "group_id",                     :null => false
     t.integer "person_id",                    :null => false
-    t.string  "role"
     t.boolean "leader",    :default => false, :null => false
     t.boolean "host",      :default => false, :null => false
     t.boolean "contact",   :default => false, :null => false
@@ -117,7 +116,6 @@ ActiveRecord::Schema.define(:version => 20121023071825) do
     t.integer  "task_type_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
-    t.boolean  "active",       :default => true,  :null => false
     t.boolean  "start",        :default => false, :null => false
     t.boolean  "finish",       :default => false, :null => false
   end
@@ -147,7 +145,7 @@ ActiveRecord::Schema.define(:version => 20121023071825) do
   add_index "tasks", ["task_status_id"], :name => "index_tasks_on_task_status_id"
   add_index "tasks", ["task_type_id"], :name => "index_tasks_on_task_type_id"
 
-  create_table "users", :force => true do |t|
+  create_table "users", :id => false, :force => true do |t|
     t.integer  "person_id"
     t.string   "username"
     t.string   "password_digest"
