@@ -11,7 +11,11 @@ class UserMailer < ActionMailer::Base
     @old_assignee = old_assignee
     recipients = make_recipients_list([@assigner, @new_assignee, @old_assignee])
 
+    # Always CC Lee
+    cc = make_recipients_list([Person.find_by_name('Lee Brown')])
+
     mail(:to => recipients,
+         :cc => cc,
          :subject => '[MHDT Connect] Person (re)assigned to you')
   end
 
@@ -27,7 +31,7 @@ class UserMailer < ActionMailer::Base
 private
   def make_recipients_list(people)
     recipients = []
-    people.each do |p|
+    people.uniq.each do |p|
       if !p.nil? && !p.email.nil?
         recipients << "\"#{p.name}\" <#{p.email}>"
       end
