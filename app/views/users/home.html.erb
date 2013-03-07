@@ -1,23 +1,38 @@
 <% provide(:title, "Welcome, #{current_user.name}") %>
 
+<% show_finished = params[:show_finished] == 'true' %>
+<% tasks = show_finished ? current_user.tasks : current_user.in_progress_tasks %>
 <div class="grouping_box">
-  <h2>Things I need to do today</h2>
-  <% tasks = current_user.in_progress_tasks %>
-  <% if !tasks.empty? %>
-    <ul>
+  <h2>My tasks</h2>
+  <b>Showing <%= show_finished ? "all tasks" : "in-progress tasks" %></b>
+  <%= link_to ( show_finished ? "[see only in-progress tasks]" : "[see finished tasks too]" ), home_path(:show_finished => !show_finished ), :class => :action %>
+  <br />
+  <% if tasks.empty? %>
+    <i>no tasks</i><br />
+  <% else %>
+    <table class="index_table">
+      <tr>
+        <th>Started</th>
+        <th>Task</th>
+        <th>Person</th>
+        <th>Status</th>
+        <th>Last contact</th>
+      </tr>
       <% tasks.each do |t| %>
-        <li>
-          <%= link_to task_title(t), t %>
-          <% if !t.sub_tasks.empty? %>
-            <ul>
-              <% t.sub_tasks.each do |st| %>
-                <li><%= st.sub_task_type.description %></li>
-              <% end %>
-            </ul>
-          <% end %>
-        </li>
+        <tr <%= raw( t.overdue? ? 'class="overdue"' : '' ) %>>
+          <td><%= format_date t.created_at %></td>
+          <td><%= link_to t.task_type.description, t %></td>
+          <td><%= t.person.name %></td>
+          <td><%= t.task_status.description %></td>
+          <td>
+            <%= format_date t.last_contact_attempt_made_at %>
+            <% if t.overdue? %>
+              <span class="overdue">(overdue)</span>
+            <% end %>
+          </td>
+        </tr>
       <% end %>
-    </ul>
+    </table>
   <% end %>
 </div>
 
