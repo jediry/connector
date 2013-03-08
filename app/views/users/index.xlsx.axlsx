@@ -1,0 +1,10 @@
+wb = xlsx_package.workbook
+wb.add_worksheet( :name => 'Users' ) do |sheet|
+  sheet.add_row [ 'Users' ]
+  sheet.add_row [ 'Generated at', Time.now ]
+  sheet.add_row []
+  sheet.add_row [ 'Name', 'Username', 'Phone', 'Email', 'Church member?' ]
+  @users.each do |u|
+    sheet.add_row [ u.name, u.username, format_telephone(u.phone), u.email, (u.member? ? 'Yes' : 'No') ]
+  end
+end

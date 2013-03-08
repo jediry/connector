@@ -13,7 +13,7 @@ class PeopleQuery
     [ 'name', 'creation' ]
   end
 
-  def each(&block)
+  def find
     q = Person.order(get_sort)
     if reverse_order?
       q = q.reverse_order
@@ -28,7 +28,7 @@ class PeopleQuery
       q = q.where('name LIKE ?', "%#{name_like}%")
     end
 
-    q.each { |person| yield person }
+    return q
   end
 
 private

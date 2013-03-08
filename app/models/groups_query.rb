@@ -14,7 +14,7 @@ class GroupsQuery
     [ 'name', 'creation', 'region', 'meeting day' ]
   end
 
-  def each(group_type, &block)
+  def find(group_type)
     q = Group.where(:group_type_id => group_type.id)
     q = q.order(get_sort)
     if reverse_order?
@@ -33,7 +33,7 @@ class GroupsQuery
       q = q.where('name LIKE ?', "%#{name_like}%")
     end
 
-    q.each { |group| yield group }
+    return q
   end
 
 private

@@ -1,9 +1,13 @@
 <% provide(:title, 'Listing tasks') %>
 
-<% query = TasksQuery.new(params[:query]) %>
-<%= render 'query', :query => query %>
+<%= render 'query', :query => @query %>
 
-<% TaskType.order(:created_at).all.each do |tt| %>
+<div class="export_box">
+  <h2>Export</h2>
+  <%= link_to "Excel", tasks_path(:params => params.slice(:query), :format => :xlsx), :class => :download %>
+</div>
+
+<% @task_types.each do |tt| %>
   <div class="grouping_box">
     <h2><%= tt.description %></h2>
     <table class="index_table">
@@ -21,7 +25,7 @@
         <% end %>
       </tr>
 
-      <% query.each tt do |t| %>
+      <% @tasks[tt.id].each do |t| %>
         <tr <%= raw( t.overdue? ? 'class="overdue"' : '' ) %>>
           <td><%= format_date t.created_at %></td>
           <td><%= link_to t.person.name, t %></td>

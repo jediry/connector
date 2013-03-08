@@ -30,12 +30,28 @@ class User < ActiveRecord::Base
 #  validates :password, :length => { :minimum => 4 }
 #  validates :password_confirmation, :presence => true
 
+  def id
+    self.person_id
+  end
+
   def name
     self.person.name
   end
 
-  def id
-    self.person_id
+  def phone
+    self.person.phone
+  end
+
+  def email
+    self.person.email
+  end
+
+  def address
+    self.person.address
+  end
+
+  def member?
+    self.person.member?
   end
 
   # Build objects for any missing associations

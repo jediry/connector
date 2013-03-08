@@ -177,6 +177,21 @@ span.overdue {
 }
 
 
+.export_box {
+    background-color: #AAAAFF;
+    border: 1px solid #555599;
+    padding: 0.75em;
+    margin: 0.5em;
+}
+
+
+.export_box h2 {
+    font-size: 10pt;
+    color: #555599;
+    display: inline;
+}
+
+
 a:link    { color: #0077AA; }
 a:visited { color: #0077AA; }
 a:hover   { color: #00AACC; }
@@ -186,3 +201,8 @@ a:link.action    { color: #00AA77; }
 a:visited.action { color: #00AA77; }
 a:hover.action   { color: #00CCAA; text-decoration: underline; }
 a:active.action  { color: #00CCAA; }
+a.download { text-decoration: none; }
+a:link.download    { color: #AA0077; }
+a:visited.download { color: #AA0077; }
+a:hover.download   { color: #DD00AA; text-decoration: underline; }
+a:active.download  { color: #DD00AA; }

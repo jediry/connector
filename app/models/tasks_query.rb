@@ -15,7 +15,7 @@ class TasksQuery
 #    [ 'user name', 'person name', 'creation' ]
   end
 
-  def each(task_type, &block)
+  def find(task_type)
     q = Task.where(:task_type_id => task_type.id)
     q = q.order(get_sort)
     if reverse_order?
@@ -38,7 +38,7 @@ class TasksQuery
       q = q.where('people.name LIKE ?', "%#{person_name_like}%")
     end
 
-    q.each { |task| yield task }
+    return q
   end
 
 private

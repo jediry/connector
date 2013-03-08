@@ -2,12 +2,20 @@ class GroupsController < ApplicationController
   before_filter :require_logged_in_user
 
   # GET /groups
+  # GET /groups.xlsx
   # GET /groups.json
   def index
-    @groups = Group.all
+    @query = GroupsQuery.new(params[:query])
+    @group_types = GroupType.all
+    @groups = { }
+
+    @group_types.each do |gt|
+      @groups[gt.id] = @query.find(gt)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
+      format.xlsx # index.xlsx.axlsx
       format.json { render json: @groups }
     end
   end

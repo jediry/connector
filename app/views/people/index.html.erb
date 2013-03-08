@@ -1,8 +1,12 @@
 <% provide(:title, 'Listing people') %>
 <p><%= link_to '[create new person]', new_person_path, :class => :action %></p>
 
-<% query = PeopleQuery.new(params[:query]) %>
-<%= render 'query', :query => query %>
+<%= render 'query', :query => @query %>
+
+<div class="export_box">
+  <h2>Export</h2>
+  <%= link_to "Excel", people_path(:params => params.slice(:query), :format => :xlsx), :class => :download %>
+</div>
 
 <table class="index_table">
   <tr>
@@ -16,7 +20,7 @@
     <% end %>
   </tr>
 
-  <% query.each do |person| %>
+  <% @people.each do |person| %>
     <tr>
       <td><%= link_to person.name, person %></td>
       <td><%= format_telephone person.phone %></td>

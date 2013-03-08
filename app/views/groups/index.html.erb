@@ -1,13 +1,17 @@
 <% provide(:title, 'Listing groups') %>
 <%= link_to '[create new group]', new_group_path, :class => :action %>
 
-<% query = GroupsQuery.new(params[:query]) %>
-<%= render 'query', :query => query %>
+<%= render 'query', :query => @query %>
+
+<div class="export_box">
+  <h2>Export</h2>
+  <%= link_to "Excel", groups_path(:params => params.slice(:query), :format => :xlsx), :class => :download %>
+</div>
 
 <table>
   <tr>
     <%
-      GroupType.order(:description).all.each do |gt|
+      @group_types.each do |gt|
 
         # unique CSS class names so that we can selected columns if they're empty without having to iterate the
         # list of records twice.
@@ -31,7 +35,7 @@
           </tr>
 
           <%
-            query.each gt do |group|
+            @groups[gt.id].each do |group|
               has_region = true if !group.region.nil?
               has_day    = true if !group.meeting_day.nil?
           %>

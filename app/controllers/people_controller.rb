@@ -2,11 +2,16 @@ class PeopleController < ApplicationController
   before_filter :require_logged_in_user
 
   # GET /people
+  # GET /people.xlsx
   # GET /people.json
   def index
+    @query = PeopleQuery.new(params[:query])
+    @people = @query.find
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: Person.all }
+      format.xlsx # index.xlsx.axlsx
+      format.json { render json: @people }
     end
   end
 

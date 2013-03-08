@@ -1,0 +1,17 @@
+wb = xlsx_package.workbook
+
+@group_types.each do |gt|
+  wb.add_worksheet( :name => gt.description ) do |sheet|
+    sheet.add_row [ 'Group type', gt.description ]
+    sheet.add_row [ 'Generated at', Time.now ]
+    sheet.add_row []
+    sheet.add_row [ 'Name', 'Region', 'Meeting day', 'Leader(s)', 'Contact(s)' ]
+    @groups[gt.id].each do |g|
+      sheet.add_row [ g.name,
+                     (!g.region.nil? ? g.region.name : nil),
+                     (!g.meeting_day.nil? ? day_of_week_name(g.meeting_day) : nil),
+                     g.leaders.map { |p| p.name }.join(', '),
+                     g.contacts.map { |p| p.name }.join(', ') ]
+    end
+  end
+end

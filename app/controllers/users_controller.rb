@@ -32,11 +32,16 @@ class UsersController < ApplicationController
   end
 
   # GET /users
+  # GET /users.xlsx
   # GET /users.json
   def index
+    @query = UsersQuery.new(params[:query])
+    @users = @query.find
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: User.all }
+      format.xlsx # index.xlsx.axlsx
+      format.json { render json: @users }
     end
   end
 

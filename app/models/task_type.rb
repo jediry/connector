@@ -1,5 +1,8 @@
 class TaskType < ActiveRecord::Base
   attr_accessible :description, :title_template, :task_statuses_attributes, :group_type_id
+
+  default_scope order(:created_at)
+
   has_many :task_statuses, :dependent => :destroy
   has_many :sub_task_types, :dependent => :destroy
   has_many :tasks

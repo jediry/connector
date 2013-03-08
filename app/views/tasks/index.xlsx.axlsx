@@ -1,0 +1,14 @@
+wb = xlsx_package.workbook
+
+@task_types.each do |tt|
+  tasks = @tasks[tt.id]
+  wb.add_worksheet( :name => tt.description ) do |sheet|
+    sheet.add_row [ 'Task type', tt.description ]
+    sheet.add_row [ 'Generated at', Time.now ]
+    sheet.add_row []
+    sheet.add_row [ 'Started', 'Person', 'Assigned to person', 'Assigned to group', 'Status', 'Last contact', 'Overdue?' ]
+    @tasks[tt.id].each do |t|
+      sheet.add_row [ format_date(t.created_at), t.person.name, t.contact.person.name, t.contact.group.name, t.task_status.description, format_date(t.last_contact_attempt_made_at), (t.overdue? ? 'Yes' : 'No') ]
+    end
+  end
+end

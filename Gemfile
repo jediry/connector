@@ -34,3 +34,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'active_attr'
+
+# For generating .xlsx files
+gem 'axlsx_rails'

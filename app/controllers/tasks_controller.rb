@@ -1,10 +1,21 @@
 class TasksController < ApplicationController
+
   # GET /tasks
+  # GET /tasks.xslx
   # GET /tasks.json
   def index
+    @query = TasksQuery.new(params[:query])
+    @task_types = TaskType.all
+    @tasks = { }
+
+    @task_types.each do |tt|
+      @tasks[tt.id] = @query.find(tt)
+    end
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: Tasks.all }
+      format.xlsx # index.xlsx.axlsx
+      format.json { render json: @tasks }
     end
   end
 

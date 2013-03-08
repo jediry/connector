@@ -13,7 +13,7 @@ class UsersQuery
     [ 'name', 'username', 'creation' ]
   end
 
-  def each(&block)
+  def find
     q = User.joins(:person).order(get_sort)
     if reverse_order?
       q = q.reverse_order
@@ -28,7 +28,7 @@ class UsersQuery
       q = q.where('username LIKE ?', "%#{username_like}%")
     end
 
-    q.each { |user| yield user }
+    return q
   end
 
 private
